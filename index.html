@@ -30,7 +30,7 @@
       var surname = document.getElementById('surname');
       var errorBox = document.getElementById('login-error');
       var successBox = document.getElementById('login-success');
-      var sessionsSection = document.getElementById('induction-videos');
+      var sessionsSection = document.getElementById('induction-sessions');
       var statusCurrent = document.getElementById('status-current-user');
 
       var emailValue = (email.value || '').trim().toLowerCase();
@@ -227,6 +227,14 @@
 
     .btn-secondary:hover { background: var(--gray-50); }
 
+    .btn-light {
+      width: 100%;
+      background: var(--white);
+      color: var(--gray-950);
+    }
+
+    .btn-light:hover { background: var(--gray-100); }
+
     .hero-panel {
       background: rgba(255,255,255,0.96);
       border: 1px solid var(--gray-200);
@@ -418,6 +426,13 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 32px;
+      align-items: center;
+    }
+
     .flow-grid {
       display: grid;
       gap: 24px;
@@ -426,7 +441,7 @@
 
     .form-card,
     .status-card,
-    .video-test-card {
+    .session-card {
       border: 1px solid var(--gray-200);
       border-radius: 32px;
       background: var(--white);
@@ -527,39 +542,6 @@
       color: var(--gray-600);
     }
 
-    .sessions-grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .session-card {
-      border: 1px solid var(--gray-200);
-      border-radius: 24px;
-      padding: 24px;
-      background: var(--white);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .session-card h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      color: var(--black);
-    }
-
-    .session-card p {
-      margin: 0 0 18px;
-      color: var(--gray-600);
-      font-size: 15px;
-    }
-
-    .highlight-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 32px;
-      align-items: center;
-    }
-
     .bullet-list {
       display: grid;
       gap: 12px;
@@ -607,13 +589,23 @@
       font-size: 15px;
     }
 
-    .btn-light {
-      width: 100%;
-      background: var(--white);
-      color: var(--gray-950);
+    .sessions-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .btn-light:hover { background: var(--gray-100); }
+    .session-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      color: var(--black);
+    }
+
+    .session-card p {
+      margin: 0 0 18px;
+      color: var(--gray-600);
+      font-size: 15px;
+    }
 
     footer {
       border-top: 1px solid var(--gray-200);
@@ -623,7 +615,7 @@
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
 
@@ -696,11 +688,7 @@
             <p class="hero-text">Welcome to the KW North training hub. This page is designed to help new agents quickly find the right training videos, access the shared Drive folder, and work through core learning content in one place.</p>
 
             <div class="logo-block">
-              <img
-                src="KW_LOGO-removebg-preview.png"
-                alt="KW North Keller Williams Realty"
-                class="logo-image"
-              />
+              <img src="KW_LOGO-removebg-preview.png" alt="KW North Keller Williams Realty" class="logo-image" />
             </div>
 
             <div class="hero-actions">
@@ -746,7 +734,7 @@
           <div class="section-header">
             <p class="section-label">Training Library</p>
             <h2>Training Categories</h2>
-            <p>Select the area you want to learn from below. These sections are placeholders for future content.</p>
+            <p>Select the area you want to learn from below. These sections will be expanded later.</p>
           </div>
 
           <div class="cards-grid">
@@ -1018,7 +1006,7 @@
           </div>
         </section>
 
-        <section id="induction-videos" class="highlight-section" style="display:none;">
+        <section id="induction-sessions" class="highlight-section" style="display:none;">
           <div class="section-header" style="max-width: 100%;">
             <p class="section-label">Induction Sessions</p>
             <h2>Session Access</h2>
@@ -1124,10 +1112,10 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-note">
-            <strong>Prototype note:</strong> This induction page is still a front-end flow. The real version can later store login details, progress, and completion history.
+            <strong>Login access:</strong> Only approved KW email addresses ending in <b>@kwsa.co.za</b> or <b>@kwsouthafrica.co.za</b> may unlock the induction session area.
           </div>
           <div class="footer-note">
-            <strong>Next build step:</strong> After this structure is approved, the live version can add proper tracking and quiz logic behind these sessions.
+            <strong>Training note:</strong> Complete your login details first to unlock the induction sessions. Use the main training Drive link for full resource access.
           </div>
         </div>
       </div>
