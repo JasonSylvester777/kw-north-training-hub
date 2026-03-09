@@ -19,6 +19,41 @@
     function openDriveLink(url) {
       window.open(url, '_blank', 'noopener,noreferrer');
     }
+
+    function continueInductionSetup() {
+      var email = document.getElementById('kw-email');
+      var firstName = document.getElementById('first-name');
+      var surname = document.getElementById('surname');
+      var errorBox = document.getElementById('login-error');
+      var successBox = document.getElementById('login-success');
+      var videoSection = document.getElementById('induction-videos');
+      var statusCurrent = document.getElementById('status-current-user');
+
+      var emailValue = (email.value || '').trim().toLowerCase();
+      var firstNameValue = (firstName.value || '').trim();
+      var surnameValue = (surname.value || '').trim();
+
+      errorBox.style.display = 'none';
+      successBox.style.display = 'none';
+
+      if (!emailValue || !firstNameValue || !surnameValue) {
+        errorBox.textContent = 'Please complete your KW email address, first name, and surname before continuing.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      if (!emailValue.endsWith('@kwnorth.co.za')) {
+        errorBox.textContent = 'Please use your KW North email address ending in @kwnorth.co.za.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      statusCurrent.textContent = firstNameValue + ' ' + surnameValue + ' • ' + emailValue;
+      successBox.textContent = 'Login step complete. Video access is now unlocked.';
+      successBox.style.display = 'block';
+      videoSection.style.display = 'block';
+      videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   </script>
   <style>
     :root {
@@ -169,6 +204,7 @@
       font-weight: 700;
       transition: 0.2s ease;
       cursor: pointer;
+      border: none;
     }
 
     .btn-primary {
@@ -415,6 +451,27 @@
       background: var(--white);
     }
 
+    .message-box {
+      display: none;
+      margin: 16px 0 0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .message-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+    }
+
+    .message-success {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+    }
+
     .lesson-list {
       display: grid;
       gap: 14px;
@@ -622,381 +679,384 @@
 </head>
 <body>
   <div id="training-home" class="portal-page active">
-  <header class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow">KW North New Agent Hub</div>
-          <h1>KW North Training Videos</h1>
-          <p class="hero-subtitle">A central place for new agents to access training videos and learning resources.</p>
-          <p class="hero-text">Welcome to the KW North training hub. This page is designed to help new agents quickly find the right training videos, access the shared Drive folder, and work through core learning content in one place.</p>
-
-          <div class="logo-block">
-            <img
-              src="KW_LOGO-removebg-preview.png"
-              alt="KW North Keller Williams Realty"
-              class="logo-image"
-            />
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#training-library">View Training Categories</a>
-            <a class="btn btn-secondary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
-          </div>
-        </div>
-
-        <div class="hero-panel">
-          <div class="hero-panel-inner">
-            <div class="hero-panel-top">
-              <div>
-                <p class="mini-label">New Agent Learning</p>
-                <h2>Start strong from day one</h2>
-              </div>
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 3v18"></path>
-                  <path d="M3 12h18"></path>
-                </svg>
-              </div>
-            </div>
-
-            <div class="support-grid">
-              <div class="support-box">
-                <strong>Training videos</strong>
-                <span>Quick access to key learning categories</span>
-              </div>
-              <div class="support-box">
-                <strong>Shared Drive access</strong>
-                <span>Open the main training folder anytime</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <section id="training-library">
-        <div class="section-header">
-          <p class="section-label">Training Library</p>
-          <h2>Training Categories</h2>
-          <p>Select the area you want to learn from below. Each section can link to a specific Google Drive folder, video playlist, or document collection.</p>
-        </div>
-
-        <div class="cards-grid">
-          <article class="card">
-            <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 19.5V4.5A1.5 1.5 0 0 1 5.5 3H20"></path>
-                  <path d="M8 7h12v14H8a4 4 0 0 1 0-8h12"></path>
-                </svg>
-              </div>
-              <span class="card-badge">Start Here</span>
-            </div>
-            <h3>Induction & Orientation</h3>
-            <p>Core onboarding videos for new KW North agents, including introduction, setup, expectations, and how to get started correctly.</p>
-            <button class="btn btn-primary" type="button" onclick="showPortalPage('induction-portal')">Open Induction Portal</button>
-          </article>
-
-          <article class="card">
-            <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <rect x="3.5" y="5" width="17" height="11" rx="2"></rect>
-                  <path d="M8 19h8"></path>
-                  <path d="M10 16v3"></path>
-                  <path d="M14 16v3"></path>
-                </svg>
-              </div>
-              <span class="card-badge">Tech</span>
-            </div>
-            <h3>KW Command Training</h3>
-            <p>Videos covering contacts, tasks, SmartPlans, opportunities, dashboard basics, and practical Command workflows.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
-          </article>
-
-          <article class="card">
-            <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 20V10"></path>
-                  <path d="m18 20-6-6-6 6"></path>
-                  <path d="M6 4h12"></path>
-                </svg>
-              </div>
-              <span class="card-badge">Listings</span>
-            </div>
-            <h3>MAPP & Listings</h3>
-            <p>Training videos on MAPP, listing processes, listing quality, feeds, and how to work accurately on the listing systems.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
-          </article>
-
-          <article class="card">
-            <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 12h16"></path>
-                  <path d="M4 6h16"></path>
-                  <path d="M4 18h10"></path>
-                </svg>
-              </div>
-              <span class="card-badge">Admin</span>
-            </div>
-            <h3>Compliance & Admin</h3>
-            <p>Resources focused on agent paperwork, compliance requirements, internal processes, and practical office procedures.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
-          </article>
-
-          <article class="card">
-            <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M7 10v4"></path>
-                  <path d="M12 7v10"></path>
-                  <path d="M17 13v1"></path>
-                  <path d="M5 3h14a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Z"></path>
-                </svg>
-              </div>
-              <span class="card-badge">Growth</span>
-            </div>
-            <h3>Sales & Productivity</h3>
-            <p>Training focused on lead generation, conversations, appointments, listings, time blocking, and agent productivity habits.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
-          </article>
-
-          <article class="card">
-            <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path>
-                </svg>
-              </div>
-              <span class="card-badge">Support</span>
-            </div>
-            <h3>Helpful Resources</h3>
-            <p>Extra videos, reference material, documents, and useful support content for day-to-day agent questions and development.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="highlight-section">
-        <div class="highlight-grid">
+    <header class="hero">
+      <div class="container">
+        <div class="hero-grid">
           <div>
-            <div class="section-header" style="margin-bottom: 0; max-width: 100%;">
-              <p class="section-label">Quick Access</p>
-              <h2>Main Training Drive</h2>
-              <p>Use the shared Drive folder as your main library for training videos and supporting material. This is where new agents can return any time to continue learning.</p>
+            <div class="eyebrow">KW North New Agent Hub</div>
+            <h1>KW North Training Videos</h1>
+            <p class="hero-subtitle">A central place for new agents to access training videos and learning resources.</p>
+            <p class="hero-text">Welcome to the KW North training hub. This page is designed to help new agents quickly find the right training videos, access the shared Drive folder, and work through core learning content in one place.</p>
+
+            <div class="logo-block">
+              <img
+                src="KW_LOGO-removebg-preview.png"
+                alt="KW North Keller Williams Realty"
+                class="logo-image"
+              />
             </div>
 
-            <div class="bullet-list">
-              <div class="bullet-item">Training videos for new agents</div>
-              <div class="bullet-item">KW Command and MAPP resources</div>
-              <div class="bullet-item">Office processes and support material</div>
-              <div class="bullet-item">Easy central access from one link</div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#training-library">View Training Categories</a>
+              <a class="btn btn-secondary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
             </div>
           </div>
 
-          <div class="drive-panel">
-            <div class="panel-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <path d="M14 3h7v7"></path>
-                <path d="M10 14 21 3"></path>
-              </svg>
-            </div>
-            <h3>Open Training Drive</h3>
-            <p>Replace this placeholder with your main Google Drive training folder link so agents can go directly to the full video library.</p>
-            <a class="btn btn-light" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
+          <div class="hero-panel">
+            <div class="hero-panel-inner">
+              <div class="hero-panel-top">
+                <div>
+                  <p class="mini-label">New Agent Learning</p>
+                  <h2>Start strong from day one</h2>
+                </div>
+                <div class="icon-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3v18"></path>
+                    <path d="M3 12h18"></path>
+                  </svg>
+                </div>
+              </div>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-note">
-          <strong>Training note:</strong> Use this page as the main starting point for new agents to access KW North training videos and learning resources.
-        </div>
-        <div class="footer-note">
-          <strong>Update note:</strong> Replace the placeholder Drive links with your actual Google Drive folder links for each training category and the main training library.
+              <div class="support-grid">
+                <div class="support-box">
+                  <strong>Training videos</strong>
+                  <span>Quick access to key learning categories</span>
+                </div>
+                <div class="support-box">
+                  <strong>Shared Drive access</strong>
+                  <span>Open the main training folder anytime</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
-</div>
+    </header>
 
-<div id="induction-portal" class="portal-page">
-  <header class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow">KW North Induction Portal</div>
-          <h1>Induction & Orientation</h1>
-          <p class="hero-subtitle">Step 1: Capture agent details before starting the training sequence.</p>
-          <p class="hero-text">This second page shows how the induction flow can begin after the agent clicks on Induction & Orientation. In the full version, this is where KW email login, name and surname capture, progress tracking, and lesson unlocking will begin.</p>
-
-          <div class="hero-actions">
-            <button class="btn btn-secondary" type="button" onclick="showPortalPage('training-home')">Back to Training Hub</button>
+    <main>
+      <div class="container">
+        <section id="training-library">
+          <div class="section-header">
+            <p class="section-label">Training Library</p>
+            <h2>Training Categories</h2>
+            <p>Select the area you want to learn from below. Each section can link to a specific Google Drive folder, video playlist, or document collection.</p>
           </div>
-        </div>
 
-        <div class="hero-panel">
-          <div class="hero-panel-inner">
-            <div class="hero-panel-top">
-              <div>
-                <p class="mini-label">Induction Flow</p>
-                <h2>Login, track, unlock</h2>
+          <div class="cards-grid">
+            <article class="card">
+              <div class="card-top">
+                <div class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 19.5V4.5A1.5 1.5 0 0 1 5.5 3H20"></path>
+                    <path d="M8 7h12v14H8a4 4 0 0 1 0-8h12"></path>
+                  </svg>
+                </div>
+                <span class="card-badge">Start Here</span>
               </div>
-              <div class="icon-box" aria-hidden="true">
+              <h3>Induction & Orientation</h3>
+              <p>Core onboarding videos for new KW North agents, including introduction, setup, expectations, and how to get started correctly.</p>
+              <button class="btn btn-primary" type="button" onclick="showPortalPage('induction-portal')">Open Induction Portal</button>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <div class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3.5" y="5" width="17" height="11" rx="2"></rect>
+                    <path d="M8 19h8"></path>
+                    <path d="M10 16v3"></path>
+                    <path d="M14 16v3"></path>
+                  </svg>
+                </div>
+                <span class="card-badge">Tech</span>
+              </div>
+              <h3>KW Command Training</h3>
+              <p>Videos covering contacts, tasks, SmartPlans, opportunities, dashboard basics, and practical Command workflows.</p>
+              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <div class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 20V10"></path>
+                    <path d="m18 20-6-6-6 6"></path>
+                    <path d="M6 4h12"></path>
+                  </svg>
+                </div>
+                <span class="card-badge">Listings</span>
+              </div>
+              <h3>MAPP & Listings</h3>
+              <p>Training videos on MAPP, listing processes, listing quality, feeds, and how to work accurately on the listing systems.</p>
+              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <div class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 12h16"></path>
+                    <path d="M4 6h16"></path>
+                    <path d="M4 18h10"></path>
+                  </svg>
+                </div>
+                <span class="card-badge">Admin</span>
+              </div>
+              <h3>Compliance & Admin</h3>
+              <p>Resources focused on agent paperwork, compliance requirements, internal processes, and practical office procedures.</p>
+              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <div class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 10v4"></path>
+                    <path d="M12 7v10"></path>
+                    <path d="M17 13v1"></path>
+                    <path d="M5 3h14a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Z"></path>
+                  </svg>
+                </div>
+                <span class="card-badge">Growth</span>
+              </div>
+              <h3>Sales & Productivity</h3>
+              <p>Training focused on lead generation, conversations, appointments, listings, time blocking, and agent productivity habits.</p>
+              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <div class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path>
+                  </svg>
+                </div>
+                <span class="card-badge">Support</span>
+              </div>
+              <h3>Helpful Resources</h3>
+              <p>Extra videos, reference material, documents, and useful support content for day-to-day agent questions and development.</p>
+              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="highlight-section">
+          <div class="highlight-grid">
+            <div>
+              <div class="section-header" style="margin-bottom: 0; max-width: 100%;">
+                <p class="section-label">Quick Access</p>
+                <h2>Main Training Drive</h2>
+                <p>Use the shared Drive folder as your main library for training videos and supporting material. This is where new agents can return any time to continue learning.</p>
+              </div>
+
+              <div class="bullet-list">
+                <div class="bullet-item">Training videos for new agents</div>
+                <div class="bullet-item">KW Command and MAPP resources</div>
+                <div class="bullet-item">Office processes and support material</div>
+                <div class="bullet-item">Easy central access from one link</div>
+              </div>
+            </div>
+
+            <div class="drive-panel">
+              <div class="panel-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
-                  <path d="M12 3v18"></path>
-                  <path d="M3 12h18"></path>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <path d="M14 3h7v7"></path>
+                  <path d="M10 14 21 3"></path>
                 </svg>
               </div>
+              <h3>Open Training Drive</h3>
+              <p>Replace this placeholder with your main Google Drive training folder link so agents can go directly to the full video library.</p>
+              <a class="btn btn-light" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
             </div>
+          </div>
+        </section>
+      </div>
+    </main>
 
-            <div class="support-grid">
-              <div class="support-box">
-                <strong>KW email access</strong>
-                <span>Only approved KW users should enter the training flow</span>
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-note">
+            <strong>Training note:</strong> Use this page as the main starting point for new agents to access KW North training videos and learning resources.
+          </div>
+          <div class="footer-note">
+            <strong>Update note:</strong> Replace the placeholder Drive links with your actual Google Drive folder links for each training category and the main training library.
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="induction-portal" class="portal-page">
+    <header class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">KW North Induction Portal</div>
+            <h1>Induction & Orientation</h1>
+            <p class="hero-subtitle">Step 1: Capture agent details before starting the training sequence.</p>
+            <p class="hero-text">This second page shows how the induction flow can begin after the agent clicks on Induction & Orientation. In the full version, this is where KW email login, name and surname capture, progress tracking, and lesson unlocking will begin.</p>
+
+            <div class="hero-actions">
+              <button class="btn btn-secondary" type="button" onclick="showPortalPage('training-home')">Back to Training Hub</button>
+            </div>
+          </div>
+
+          <div class="hero-panel">
+            <div class="hero-panel-inner">
+              <div class="hero-panel-top">
+                <div>
+                  <p class="mini-label">Induction Flow</p>
+                  <h2>Login, track, unlock</h2>
+                </div>
+                <div class="icon-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3v18"></path>
+                    <path d="M3 12h18"></path>
+                  </svg>
+                </div>
               </div>
-              <div class="support-box">
-                <strong>Sequential learning</strong>
-                <span>Each video unlocks only after quiz completion</span>
+
+              <div class="support-grid">
+                <div class="support-box">
+                  <strong>KW email access</strong>
+                  <span>Only approved KW users should enter the training flow</span>
+                </div>
+                <div class="support-box">
+                  <strong>Sequential learning</strong>
+                  <span>Each video unlocks only after quiz completion</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <div class="container">
-      <section>
-        <div class="section-header">
-          <p class="section-label">Page 2</p>
-          <h2>Agent Setup & Induction Preview</h2>
-          <p>This is the first setup page for the induction process. It can later be connected to real login, progress tracking, and quiz completion logic.</p>
-        </div>
-
-        <div class="flow-grid">
-          <div class="form-card">
-            <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
-              <p class="section-label">Agent Details</p>
-              <h2 style="font-size: 30px;">Login / Profile Capture</h2>
-              <p>In the real system, the KW email would come from sign-in. For now, this page shows the structure of the setup step.</p>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">KW Email Address</label>
-              <input class="form-input" type="email" placeholder="name@kwnorth.co.za" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <input class="form-input" type="text" placeholder="Enter first name" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Surname</label>
-              <input class="form-input" type="text" placeholder="Enter surname" />
-            </div>
-
-            <a class="btn btn-primary" href="#induction-videos">Continue to Induction Videos</a>
+    <main>
+      <div class="container">
+        <section>
+          <div class="section-header">
+            <p class="section-label">Page 2</p>
+            <h2>Agent Setup & Induction Preview</h2>
+            <p>This is the first setup page for the induction process. It can later be connected to real login, progress tracking, and quiz completion logic.</p>
           </div>
 
-          <div class="status-card" style="background: var(--gray-950); color: var(--white);">
-            <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
-              <p class="section-label" style="color: #fecaca;">Flow Preview</p>
-              <h2 style="font-size: 30px; color: var(--white);">What happens next</h2>
-              <p style="color: #d1d5db;">Once the real system is connected, the agent journey will follow a tracked sequence.</p>
+          <div class="flow-grid">
+            <div class="form-card">
+              <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
+                <p class="section-label">Agent Details</p>
+                <h2 style="font-size: 30px;">Login / Profile Capture</h2>
+                <p>In the real system, the KW email would come from sign-in. For now, this page shows the structure of the setup step.</p>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">KW Email Address</label>
+                <input id="kw-email" class="form-input" type="email" placeholder="name@kwnorth.co.za" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input id="first-name" class="form-input" type="text" placeholder="Enter first name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Surname</label>
+                <input id="surname" class="form-input" type="text" placeholder="Enter surname" />
+              </div>
+
+              <div id="login-error" class="message-box message-error"></div>
+              <div id="login-success" class="message-box message-success"></div>
+
+              <button class="btn btn-primary" type="button" onclick="continueInductionSetup()">Login and Continue</button>
             </div>
 
-            <div class="lesson-list">
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 1 — Login with KW Email</strong>
-                  <span style="color: #d1d5db;">User identity is captured for progress tracking</span>
-                </div>
-                <span class="status-badge status-live">Live Next</span>
+            <div class="status-card" style="background: var(--gray-950); color: var(--white);">
+              <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
+                <p class="section-label" style="color: #fecaca;">Flow Preview</p>
+                <h2 style="font-size: 30px; color: var(--white);">What happens next</h2>
+                <p style="color: #d1d5db;">Once the real system is connected, the agent journey will follow a tracked sequence.</p>
               </div>
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 2 — Watch Video 1</strong>
-                  <span style="color: #d1d5db;">Induction begins with the first training lesson</span>
-                </div>
-                <span class="status-badge status-live">Unlocked</span>
-              </div>
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 3 — Complete 5 Questions</strong>
-                  <span style="color: #d1d5db;">Quiz pass unlocks the next lesson</span>
-                </div>
-                <span class="status-badge status-locked">Sequence</span>
-              </div>
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 4 — Admin Tracking</strong>
-                  <span style="color: #d1d5db;">You can monitor where each agent stopped</span>
-                </div>
-                <span class="status-badge status-locked">Tracked</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section id="induction-videos" class="highlight-section">
-        <div class="section-header" style="max-width: 100%;">
-          <p class="section-label">Drive Video Test</p>
-          <h2>Induction Video Access Test</h2>
-          <p>This version avoids loading Drive automatically inside the preview. Instead, each test video opens in a new tab when clicked.</p>
-        </div>
-
-        <div class="flow-grid">
-          <div class="video-test-card">
-            <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 1</h3>
-            <div class="video-preview-box">
-              <div>
-                <strong>Drive Video Test 1</strong>
-                <p>Click below to open the first induction video in a new tab for testing.</p>
-                <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Open Video 1</button>
+              <div class="lesson-list">
+                <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
+                  <div>
+                    <strong style="color: var(--white);">Step 1 — Login with KW Email</strong>
+                    <span style="color: #d1d5db;">User identity is captured for progress tracking</span>
+                  </div>
+                  <span class="status-badge status-live">Required</span>
+                </div>
+                <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
+                  <div>
+                    <strong style="color: var(--white);">Current User</strong>
+                    <span id="status-current-user" style="color: #d1d5db;">No login details entered yet</span>
+                  </div>
+                  <span class="status-badge status-locked">Waiting</span>
+                </div>
+                <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
+                  <div>
+                    <strong style="color: var(--white);">Step 2 — Watch Video 1</strong>
+                    <span style="color: #d1d5db;">Video access appears only after the login step is completed</span>
+                  </div>
+                  <span class="status-badge status-locked">Locked First</span>
+                </div>
+                <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
+                  <div>
+                    <strong style="color: var(--white);">Step 3 — Complete 5 Questions</strong>
+                    <span style="color: #d1d5db;">Quiz pass unlocks the next lesson</span>
+                  </div>
+                  <span class="status-badge status-locked">Sequence</span>
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          <div class="video-test-card">
-            <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 2</h3>
-            <div class="video-preview-box">
-              <div>
-                <strong>Drive Video Test 2</strong>
-                <p>Click below to open the second induction video in a new tab for testing.</p>
-                <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Open Video 2</button>
+        <section id="induction-videos" class="highlight-section" style="display:none;">
+          <div class="section-header" style="max-width: 100%;">
+            <p class="section-label">Drive Video Test</p>
+            <h2>Induction Video Access Test</h2>
+            <p>This version avoids loading Drive automatically inside the preview. Instead, each test video opens in a new tab when clicked.</p>
+          </div>
+
+          <div class="flow-grid">
+            <div class="video-test-card">
+              <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 1</h3>
+              <div class="video-preview-box">
+                <div>
+                  <strong>Drive Video Test 1</strong>
+                  <p>Click below to open the first induction video in a new tab for testing.</p>
+                  <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Open Video 1</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="video-test-card">
+              <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 2</h3>
+              <div class="video-preview-box">
+                <div>
+                  <strong>Drive Video Test 2</strong>
+                  <p>Click below to open the second induction video in a new tab for testing.</p>
+                  <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Open Video 2</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
-  </main>
+        </section>
+      </div>
+    </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-note">
-          <strong>Prototype note:</strong> This second page is a front-end flow preview only. The real version will use login, saved progress, quiz results, and sequential unlock logic.
-        </div>
-        <div class="footer-note">
-          <strong>Next build step:</strong> Once the page structure is approved, the live version can connect the login and tracking system behind this induction flow.
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-note">
+            <strong>Prototype note:</strong> This second page is a front-end flow preview only. The real version will use login, saved progress, quiz results, and sequential unlock logic.
+          </div>
+          <div class="footer-note">
+            <strong>Next build step:</strong> Once the page structure is approved, the live version can connect the login and tracking system behind this induction flow.
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
-</div>
+    </footer>
+  </div>
 </body>
 </html>
