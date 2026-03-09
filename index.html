@@ -20,13 +20,17 @@
       window.open(url, '_blank', 'noopener,noreferrer');
     }
 
+    function showComingSoon() {
+      alert('Coming soon');
+    }
+
     function continueInductionSetup() {
       var email = document.getElementById('kw-email');
       var firstName = document.getElementById('first-name');
       var surname = document.getElementById('surname');
       var errorBox = document.getElementById('login-error');
       var successBox = document.getElementById('login-success');
-      var videoSection = document.getElementById('induction-videos');
+      var sessionsSection = document.getElementById('induction-videos');
       var statusCurrent = document.getElementById('status-current-user');
 
       var emailValue = (email.value || '').trim().toLowerCase();
@@ -42,17 +46,18 @@
         return;
       }
 
-      if (!emailValue.endsWith('@kwnorth.co.za')) {
-        errorBox.textContent = 'Please use your KW North email address ending in @kwnorth.co.za.';
+      var allowed = emailValue.endsWith('@kwsa.co.za') || emailValue.endsWith('@kwsouthafrica.co.za');
+      if (!allowed) {
+        errorBox.textContent = 'Please use your approved KW email address ending in @kwsa.co.za or @kwsouthafrica.co.za.';
         errorBox.style.display = 'block';
         return;
       }
 
       statusCurrent.textContent = firstNameValue + ' ' + surnameValue + ' • ' + emailValue;
-      successBox.textContent = 'Login step complete. Video access is now unlocked.';
+      successBox.textContent = 'Login step complete. Session access is now unlocked.';
       successBox.style.display = 'block';
-      videoSection.style.display = 'block';
-      videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      sessionsSection.style.display = 'block';
+      sessionsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   </script>
   <style>
@@ -522,28 +527,28 @@
       color: var(--gray-600);
     }
 
-    .video-preview-box {
-      width: 100%;
-      min-height: 320px;
-      border: 1px solid var(--gray-200);
-      border-radius: 22px;
-      background: linear-gradient(135deg, var(--gray-50), #ffffff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
-      text-align: center;
+    .sessions-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .video-preview-box strong {
-      display: block;
+    .session-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 24px;
+      padding: 24px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .session-card h3 {
+      margin: 0 0 10px;
       font-size: 22px;
       color: var(--black);
-      margin-bottom: 12px;
     }
 
-    .video-preview-box p {
-      margin: 0 0 20px;
+    .session-card p {
+      margin: 0 0 18px;
       color: var(--gray-600);
       font-size: 15px;
     }
@@ -648,7 +653,8 @@
       .hero-grid,
       .highlight-grid,
       .flow-grid,
-      .footer-grid {
+      .footer-grid,
+      .sessions-grid {
         grid-template-columns: 1fr;
       }
 
@@ -662,7 +668,8 @@
       .highlight-grid,
       .cards-grid,
       .support-grid,
-      .footer-grid {
+      .footer-grid,
+      .sessions-grid {
         grid-template-columns: 1fr;
       }
 
@@ -698,7 +705,7 @@
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="#training-library">View Training Categories</a>
-              <a class="btn btn-secondary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
+              <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
             </div>
           </div>
 
@@ -739,7 +746,7 @@
           <div class="section-header">
             <p class="section-label">Training Library</p>
             <h2>Training Categories</h2>
-            <p>Select the area you want to learn from below. Each section can link to a specific Google Drive folder, video playlist, or document collection.</p>
+            <p>Select the area you want to learn from below. These sections are placeholders for future content.</p>
           </div>
 
           <div class="cards-grid">
@@ -754,7 +761,7 @@
                 <span class="card-badge">Start Here</span>
               </div>
               <h3>Induction & Orientation</h3>
-              <p>Core onboarding videos for new KW North agents, including introduction, setup, expectations, and how to get started correctly.</p>
+              <p>Core onboarding sessions for new KW South Africa agents, including introduction, setup, expectations, and how to get started correctly.</p>
               <button class="btn btn-primary" type="button" onclick="showPortalPage('induction-portal')">Open Induction Portal</button>
             </article>
 
@@ -772,7 +779,7 @@
               </div>
               <h3>KW Command Training</h3>
               <p>Videos covering contacts, tasks, SmartPlans, opportunities, dashboard basics, and practical Command workflows.</p>
-              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+              <button class="btn btn-primary" type="button" onclick="showComingSoon()">Coming Soon</button>
             </article>
 
             <article class="card">
@@ -788,7 +795,7 @@
               </div>
               <h3>MAPP & Listings</h3>
               <p>Training videos on MAPP, listing processes, listing quality, feeds, and how to work accurately on the listing systems.</p>
-              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+              <button class="btn btn-primary" type="button" onclick="showComingSoon()">Coming Soon</button>
             </article>
 
             <article class="card">
@@ -804,7 +811,7 @@
               </div>
               <h3>Compliance & Admin</h3>
               <p>Resources focused on agent paperwork, compliance requirements, internal processes, and practical office procedures.</p>
-              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+              <button class="btn btn-primary" type="button" onclick="showComingSoon()">Coming Soon</button>
             </article>
 
             <article class="card">
@@ -821,7 +828,7 @@
               </div>
               <h3>Sales & Productivity</h3>
               <p>Training focused on lead generation, conversations, appointments, listings, time blocking, and agent productivity habits.</p>
-              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+              <button class="btn btn-primary" type="button" onclick="showComingSoon()">Coming Soon</button>
             </article>
 
             <article class="card">
@@ -835,7 +842,7 @@
               </div>
               <h3>Helpful Resources</h3>
               <p>Extra videos, reference material, documents, and useful support content for day-to-day agent questions and development.</p>
-              <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+              <button class="btn btn-primary" type="button" onclick="showComingSoon()">Coming Soon</button>
             </article>
           </div>
         </section>
@@ -866,8 +873,8 @@
                 </svg>
               </div>
               <h3>Open Training Drive</h3>
-              <p>Replace this placeholder with your main Google Drive training folder link so agents can go directly to the full video library.</p>
-              <a class="btn btn-light" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
+              <p>Use this link for full access to the shared KW training library.</p>
+              <a class="btn btn-light" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
             </div>
           </div>
         </section>
@@ -878,10 +885,10 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-note">
-            <strong>Training note:</strong> Use this page as the main starting point for new agents to access KW North training videos and learning resources.
+            <strong>Training note:</strong> Use this page as the main starting point for new agents to access KW training videos and learning resources.
           </div>
           <div class="footer-note">
-            <strong>Update note:</strong> Replace the placeholder Drive links with your actual Google Drive folder links for each training category and the main training library.
+            <strong>Update note:</strong> The first-page category sections are placeholders and will be built out later.
           </div>
         </div>
       </div>
@@ -893,10 +900,10 @@
       <div class="container">
         <div class="hero-grid">
           <div>
-            <div class="eyebrow">KW North Induction Portal</div>
+            <div class="eyebrow">KW South Africa Induction Portal</div>
             <h1>Induction & Orientation</h1>
             <p class="hero-subtitle">Step 1: Capture agent details before starting the training sequence.</p>
-            <p class="hero-text">This second page shows how the induction flow can begin after the agent clicks on Induction & Orientation. In the full version, this is where KW email login, name and surname capture, progress tracking, and lesson unlocking will begin.</p>
+            <p class="hero-text">This induction flow begins after the agent clicks on Induction & Orientation. Access is limited to approved KW email domains and the session list only appears after the login step is completed.</p>
 
             <div class="hero-actions">
               <button class="btn btn-secondary" type="button" onclick="showPortalPage('training-home')">Back to Training Hub</button>
@@ -908,7 +915,7 @@
               <div class="hero-panel-top">
                 <div>
                   <p class="mini-label">Induction Flow</p>
-                  <h2>Login, track, unlock</h2>
+                  <h2>Login, unlock, learn</h2>
                 </div>
                 <div class="icon-box" aria-hidden="true">
                   <svg viewBox="0 0 24 24">
@@ -920,12 +927,12 @@
 
               <div class="support-grid">
                 <div class="support-box">
-                  <strong>KW email access</strong>
-                  <span>Only approved KW users should enter the training flow</span>
+                  <strong>Approved KW access only</strong>
+                  <span>Only @kwsa.co.za and @kwsouthafrica.co.za emails are allowed</span>
                 </div>
                 <div class="support-box">
-                  <strong>Sequential learning</strong>
-                  <span>Each video unlocks only after quiz completion</span>
+                  <strong>Sequential induction sessions</strong>
+                  <span>Agents can open each session after completing the login step</span>
                 </div>
               </div>
             </div>
@@ -939,8 +946,8 @@
         <section>
           <div class="section-header">
             <p class="section-label">Page 2</p>
-            <h2>Agent Setup & Induction Preview</h2>
-            <p>This is the first setup page for the induction process. It can later be connected to real login, progress tracking, and quiz completion logic.</p>
+            <h2>Agent Setup & Session Access</h2>
+            <p>Complete the setup below to unlock the induction session list.</p>
           </div>
 
           <div class="flow-grid">
@@ -948,12 +955,12 @@
               <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
                 <p class="section-label">Agent Details</p>
                 <h2 style="font-size: 30px;">Login / Profile Capture</h2>
-                <p>In the real system, the KW email would come from sign-in. For now, this page shows the structure of the setup step.</p>
+                <p>Use an approved KW South Africa email address to continue.</p>
               </div>
 
               <div class="form-group">
                 <label class="form-label">KW Email Address</label>
-                <input id="kw-email" class="form-input" type="email" placeholder="name@kwnorth.co.za" />
+                <input id="kw-email" class="form-input" type="email" placeholder="name@kwsa.co.za or name@kwsouthafrica.co.za" />
               </div>
               <div class="form-group">
                 <label class="form-label">First Name</label>
@@ -974,14 +981,14 @@
               <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
                 <p class="section-label" style="color: #fecaca;">Flow Preview</p>
                 <h2 style="font-size: 30px; color: var(--white);">What happens next</h2>
-                <p style="color: #d1d5db;">Once the real system is connected, the agent journey will follow a tracked sequence.</p>
+                <p style="color: #d1d5db;">Once login is accepted, the session list becomes available below.</p>
               </div>
 
               <div class="lesson-list">
                 <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
                   <div>
                     <strong style="color: var(--white);">Step 1 — Login with KW Email</strong>
-                    <span style="color: #d1d5db;">User identity is captured for progress tracking</span>
+                    <span style="color: #d1d5db;">Access is restricted to approved email domains</span>
                   </div>
                   <span class="status-badge status-live">Required</span>
                 </div>
@@ -994,17 +1001,17 @@
                 </div>
                 <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
                   <div>
-                    <strong style="color: var(--white);">Step 2 — Watch Video 1</strong>
-                    <span style="color: #d1d5db;">Video access appears only after the login step is completed</span>
+                    <strong style="color: var(--white);">Step 2 — Open Sessions</strong>
+                    <span style="color: #d1d5db;">Session access appears only after the login step is completed</span>
                   </div>
                   <span class="status-badge status-locked">Locked First</span>
                 </div>
                 <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
                   <div>
-                    <strong style="color: var(--white);">Step 3 — Complete 5 Questions</strong>
-                    <span style="color: #d1d5db;">Quiz pass unlocks the next lesson</span>
+                    <strong style="color: var(--white);">Step 3 — Continue Training</strong>
+                    <span style="color: #d1d5db;">Use the full Drive access link at any time for all resources</span>
                   </div>
-                  <span class="status-badge status-locked">Sequence</span>
+                  <span class="status-badge status-locked">Next</span>
                 </div>
               </div>
             </div>
@@ -1013,32 +1020,100 @@
 
         <section id="induction-videos" class="highlight-section" style="display:none;">
           <div class="section-header" style="max-width: 100%;">
-            <p class="section-label">Drive Video Test</p>
-            <h2>Induction Video Access Test</h2>
-            <p>This version avoids loading Drive automatically inside the preview. Instead, each test video opens in a new tab when clicked.</p>
+            <p class="section-label">Induction Sessions</p>
+            <h2>Session Access</h2>
+            <p>Click a session below to open it in a new tab.</p>
           </div>
 
-          <div class="flow-grid">
-            <div class="video-test-card">
-              <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 1</h3>
-              <div class="video-preview-box">
-                <div>
-                  <strong>Drive Video Test 1</strong>
-                  <p>Click below to open the first induction video in a new tab for testing.</p>
-                  <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Open Video 1</button>
-                </div>
-              </div>
+          <div class="sessions-grid">
+            <div class="session-card">
+              <h3>Session 1</h3>
+              <p>Open Session 1.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Open Session 1</button>
             </div>
 
-            <div class="video-test-card">
-              <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 2</h3>
-              <div class="video-preview-box">
-                <div>
-                  <strong>Drive Video Test 2</strong>
-                  <p>Click below to open the second induction video in a new tab for testing.</p>
-                  <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Open Video 2</button>
-                </div>
-              </div>
+            <div class="session-card">
+              <h3>Session 2</h3>
+              <p>Open Session 2.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Open Session 2</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 3</h3>
+              <p>Open Session 3.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/14flcLWujwSms4WfwfkBjRFhB_MysADEb/preview')">Open Session 3</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 4</h3>
+              <p>Open Session 4.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1fEYi75PdacOexsW9ISSU9-zgUG1Hevl3/preview')">Open Session 4</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 4.5</h3>
+              <p>Open Session 4.5.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KEkPthpAnwlmKBMHO-EumnRTx55p5Qb4/preview')">Open Session 4.5</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 5</h3>
+              <p>Open Session 5.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1iq2HA8ERPKXSM5R6jZX6fEeLTgCIBraH/preview')">Open Session 5</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 6</h3>
+              <p>Open Session 6.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1zySGaGJXAWCqZbwq7SLm1TnqvTKMtKKm/preview')">Open Session 6</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 7</h3>
+              <p>Open Session 7.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1YX-SSvvVI3RcRzYj5mRGMI75b7mgdFHp/preview')">Open Session 7</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 8</h3>
+              <p>Open Session 8.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1uWLllVK5mz_U8h2PGnXFVB9M944aTdon/preview')">Open Session 8</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 9</h3>
+              <p>Open Session 9.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1nsjd5zPd0_9-KFbEYucwA9LD4sdK3L01/preview')">Open Session 9</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 10</h3>
+              <p>Open Session 10.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ExR6OZvhTw8IkjrAUF4Jw-84wM_Z5FZw/preview')">Open Session 10</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 11</h3>
+              <p>Open Session 11.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XPQoHQ-Em_Sjc-C8QiwajrdnVuZGw-q0/preview')">Open Session 11</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 12</h3>
+              <p>Open Session 12.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1d5KSRth44HT5mE0LLeU5theWUvRrBLJa/preview')">Open Session 12</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 13</h3>
+              <p>Open Session 13.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/15eLSpkwzYTBhjXeuux0tMsBDl9_O_AFd/preview')">Open Session 13</button>
+            </div>
+
+            <div class="session-card">
+              <h3>Session 14</h3>
+              <p>Open Session 14.</p>
+              <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1IAsFqAjzNZ2RGRLUyb0fKEH5gUEqHsJM/preview')">Open Session 14</button>
             </div>
           </div>
         </section>
@@ -1049,10 +1124,10 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-note">
-            <strong>Prototype note:</strong> This second page is a front-end flow preview only. The real version will use login, saved progress, quiz results, and sequential unlock logic.
+            <strong>Prototype note:</strong> This induction page is still a front-end flow. The real version can later store login details, progress, and completion history.
           </div>
           <div class="footer-note">
-            <strong>Next build step:</strong> Once the page structure is approved, the live version can connect the login and tracking system behind this induction flow.
+            <strong>Next build step:</strong> After this structure is approved, the live version can add proper tracking and quiz logic behind these sessions.
           </div>
         </div>
       </div>
