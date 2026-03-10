@@ -19,31 +19,6 @@
     function openDriveLink(url) {
       window.open(url, '_blank', 'noopener,noreferrer');
     }
-
-    function openModal(modalId) {
-      var modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function closeModal(modalId) {
-      var modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-
-    window.addEventListener('click', function (event) {
-      document.querySelectorAll('.modal-overlay').forEach(function(modal) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }
-      });
-    });
   </script>
   <style>
     :root {
@@ -66,7 +41,6 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -195,7 +169,6 @@
       font-weight: 700;
       transition: 0.2s ease;
       cursor: pointer;
-      border: none;
     }
 
     .btn-primary {
@@ -212,14 +185,6 @@
     }
 
     .btn-secondary:hover { background: var(--gray-50); }
-
-    .btn-light {
-      width: 100%;
-      background: var(--white);
-      color: var(--gray-950);
-    }
-
-    .btn-light:hover { background: var(--gray-100); }
 
     .hero-panel {
       background: rgba(255,255,255,0.96);
@@ -612,111 +577,6 @@
 
     .footer-note strong { color: var(--black); }
 
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(17, 24, 39, 0.72);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-content {
-      width: 100%;
-      max-width: 860px;
-      max-height: 90vh;
-      background: var(--white);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 30px 60px rgba(15, 23, 42, 0.28);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-header {
-      padding: 20px 24px;
-      background: linear-gradient(135deg, #111827 0%, #1f2937 55%, #b91c1c 100%);
-      color: var(--white);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .modal-header h3 {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.1;
-    }
-
-    .modal-header p {
-      margin: 6px 0 0;
-      color: #e5e7eb;
-      font-size: 14px;
-    }
-
-    .modal-close {
-      border: 0;
-      background: rgba(255,255,255,0.12);
-      color: var(--white);
-      border-radius: 14px;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .modal-close:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    .modal-body {
-      padding: 24px;
-      overflow: auto;
-      background: var(--white);
-    }
-
-    .modal-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .modal-item {
-      border: 1px solid var(--gray-200);
-      border-radius: 18px;
-      padding: 18px;
-      background: var(--gray-50);
-      display: flex;
-      gap: 16px;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-item-text strong {
-      display: block;
-      color: var(--black);
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .modal-item-text span {
-      color: var(--gray-600);
-      font-size: 14px;
-    }
-
-    .coming-soon-box {
-      border: 1px solid var(--gray-200);
-      border-radius: 22px;
-      padding: 24px;
-      background: var(--gray-50);
-      color: var(--gray-700);
-      text-align: center;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
     svg {
       width: 24px;
       height: 24px;
@@ -757,10 +617,6 @@
       .hero-panel-inner, .drive-panel { padding: 24px; }
       .container { padding: 0 18px; }
       .logo-image { height: 56px; }
-      .modal-content { max-height: 95vh; border-radius: 22px; }
-      .modal-header { padding: 16px; }
-      .modal-body { padding: 16px; }
-      .modal-item { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
@@ -785,7 +641,7 @@
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="#training-library">View Training Categories</a>
-            <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
+            <a class="btn btn-secondary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
           </div>
         </div>
 
@@ -826,7 +682,7 @@
         <div class="section-header">
           <p class="section-label">Training Library</p>
           <h2>Training Categories</h2>
-          <p>Select the area you want to learn from below. These sections will be expanded later.</p>
+          <p>Select the area you want to learn from below. Each section can link to a specific Google Drive folder, video playlist, or document collection.</p>
         </div>
 
         <div class="cards-grid">
@@ -859,7 +715,7 @@
             </div>
             <h3>KW Command Training</h3>
             <p>Videos covering contacts, tasks, SmartPlans, opportunities, dashboard basics, and practical Command workflows.</p>
-            <button class="btn btn-primary" type="button" onclick="openModal('commandModal')">Open Videos</button>
+            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
           </article>
 
           <article class="card">
@@ -875,7 +731,7 @@
             </div>
             <h3>MAPP & Listings</h3>
             <p>Training videos on MAPP, listing processes, listing quality, feeds, and how to work accurately on the listing systems.</p>
-            <button class="btn btn-primary" type="button" onclick="openModal('mappModal')">Open Videos</button>
+            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
           </article>
 
           <article class="card">
@@ -887,11 +743,11 @@
                   <path d="M4 18h10"></path>
                 </svg>
               </div>
-              <span class="card-badge">LOOM</span>
+              <span class="card-badge">Admin</span>
             </div>
-            <h3>LOOM</h3>
-            <p>Training focused on LOOM reports, contact information access, sectional title details, and troubleshooting common report issues.</p>
-            <button class="btn btn-primary" type="button" onclick="openModal('loomModal')">Open Videos</button>
+            <h3>Compliance & Admin</h3>
+            <p>Resources focused on agent paperwork, compliance requirements, internal processes, and practical office procedures.</p>
+            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
           </article>
 
           <article class="card">
@@ -904,11 +760,11 @@
                   <path d="M5 3h14a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Z"></path>
                 </svg>
               </div>
-              <span class="card-badge">Other</span>
+              <span class="card-badge">Growth</span>
             </div>
-            <h3>Other Training</h3>
-            <p>Additional technical and practical training content for common system issues and agent support topics.</p>
-            <button class="btn btn-primary" type="button" onclick="openModal('otherModal')">Open Videos</button>
+            <h3>Sales & Productivity</h3>
+            <p>Training focused on lead generation, conversations, appointments, listings, time blocking, and agent productivity habits.</p>
+            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
           </article>
 
           <article class="card">
@@ -922,7 +778,7 @@
             </div>
             <h3>Helpful Resources</h3>
             <p>Extra videos, reference material, documents, and useful support content for day-to-day agent questions and development.</p>
-            <button class="btn btn-primary" type="button" onclick="openModal('resourcesModal')">Open</button>
+            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
           </article>
         </div>
       </section>
@@ -953,8 +809,8 @@
               </svg>
             </div>
             <h3>Open Training Drive</h3>
-            <p>Use this link for full access to the shared KW training library.</p>
-            <a class="btn btn-light" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
+            <p>Replace this placeholder with your main Google Drive training folder link so agents can go directly to the full video library.</p>
+            <a class="btn btn-light" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
           </div>
         </div>
       </section>
@@ -965,10 +821,10 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-note">
-          <strong>Training note:</strong> Use this page as the main starting point for new agents to access KW North training videos and learning resources.
+          <strong>Training hub:</strong> Use this page as the central access point for KW North agent training videos, learning resources, and practical support content.
         </div>
         <div class="footer-note">
-          <strong>Update note:</strong> The first-page category sections are now organized into popups so agents can choose exactly which video to watch.
+          <strong>Learning experience:</strong> Browse each training category, open the relevant video menu, and select the session you want to watch at your own pace.
         </div>
       </div>
     </div>
@@ -1141,162 +997,6 @@
       </div>
     </div>
   </footer>
-</div>
-
-<div class="modal-overlay" id="commandModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div>
-        <h3>KW Command Training</h3>
-        <p>Select the Command training video you want to watch.</p>
-      </div>
-      <button class="modal-close" type="button" onclick="closeModal('commandModal')">Close</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-list">
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Adding Contacts onto your Command using your Phone</strong>
-            <span>Mobile contact importing and setup training.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1_e7o19kOOs7kwGL-Dn5fJwHZuvuLbnpR/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>How to action out task using Command on your smart phone</strong>
-            <span>Using Command task workflows on mobile.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1VrjWF3O1rrfwMUPZI2UrYmbBrQNL3QLc/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>How to Action Your Tasks in Command</strong>
-            <span>Desktop task completion workflow training.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/125ahihTtXnJtCzjzwNedC8ROUCx-j7Uz/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>How to add Smart Plans and add your contacts</strong>
-            <span>SmartPlan setup and contact assignment training.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/13HAzVNAw3ed78tNyZQWMy5meir8XQlRD/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Birthday Smart Plan training</strong>
-            <span>Birthday SmartPlan setup and usage.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KsOgabj4Qx6We4061ZRtR3h6cA3g4_n0/preview')">Watch</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="mappModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div>
-        <h3>MAPP & Listings</h3>
-        <p>Select the MAPP or listing video you want to watch.</p>
-      </div>
-      <button class="modal-close" type="button" onclick="closeModal('mappModal')">Close</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-list">
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>How to load your listing on MAPP</strong>
-            <span>Listing upload process on MAPP.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1AdWWPPrsMq0qyMTlPwTReC5M2tsff2Nf/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Creating Links for your website with all listings</strong>
-            <span>Website link creation for listings.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XAg-_i8JdFLQ7W6dt0sPBMH4JTgLBq6p/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Making Flyers on MAPP</strong>
-            <span>Create listing flyers in MAPP.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1WUM1slaQ0Li1OS5H4h1mUVul44xx5CEm/preview')">Watch</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="loomModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div>
-        <h3>LOOM</h3>
-        <p>Select the LOOM video you want to watch.</p>
-      </div>
-      <button class="modal-close" type="button" onclick="closeModal('loomModal')">Close</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-list">
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Accessing Contact Info street & Sectional Titles</strong>
-            <span>Working with contact info, street, and sectional title data.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PFeB2Ebly1yyRCkXfKCreEy0xGeegu8K/preview')">Watch</button>
-        </div>
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Error Pulling LOOM reports</strong>
-            <span>Troubleshooting common LOOM report pull issues.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1UG4JwIctEN2ufWc_h9428IO5eKuWkIP-/preview')">Watch</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="otherModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div>
-        <h3>Other Training</h3>
-        <p>Select the training video you want to watch.</p>
-      </div>
-      <button class="modal-close" type="button" onclick="closeModal('otherModal')">Close</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-list">
-        <div class="modal-item">
-          <div class="modal-item-text">
-            <strong>Clearing browser history and Cache</strong>
-            <span>Browser troubleshooting and cache clearing guide.</span>
-          </div>
-          <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ADA8DhhDhq-E3kZR6CyhmCuxKtg6EV-I/preview')">Watch</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="resourcesModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div>
-        <h3>Helpful Resources</h3>
-        <p>This section is reserved for future content.</p>
-      </div>
-      <button class="modal-close" type="button" onclick="closeModal('resourcesModal')">Close</button>
-    </div>
-    <div class="modal-body">
-      <div class="coming-soon-box">Coming soon</div>
-    </div>
-  </div>
 </div>
 </body>
 </html>
