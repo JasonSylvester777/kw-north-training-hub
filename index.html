@@ -5,20 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KW North New Agent Training Hub</title>
   <script>
-    function showPortalPage(pageId) {
-      document.querySelectorAll('.portal-page').forEach(function(page) {
-        page.style.display = 'none';
-      });
-      var target = document.getElementById(pageId);
-      if (target) {
-        target.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
     function openDriveLink(url) {
       window.open(url, '_blank', 'noopener,noreferrer');
     }
+
+    function openModal(modalId) {
+      var modal = document.getElementById(modalId);
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      var modal = document.getElementById(modalId);
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    window.addEventListener('click', function (event) {
+      document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    });
   </script>
   <style>
     :root {
@@ -169,6 +183,7 @@
       font-weight: 700;
       transition: 0.2s ease;
       cursor: pointer;
+      border: none;
     }
 
     .btn-primary {
@@ -185,6 +200,14 @@
     }
 
     .btn-secondary:hover { background: var(--gray-50); }
+
+    .btn-light {
+      width: 100%;
+      background: var(--white);
+      color: var(--gray-950);
+    }
+
+    .btn-light:hover { background: var(--gray-100); }
 
     .hero-panel {
       background: rgba(255,255,255,0.96);
@@ -290,14 +313,6 @@
       font-size: 17px;
     }
 
-    .portal-page {
-      display: none;
-    }
-
-    .portal-page.active {
-      display: block;
-    }
-
     .cards-grid {
       display: grid;
       gap: 24px;
@@ -377,120 +392,6 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .flow-grid {
-      display: grid;
-      gap: 24px;
-      grid-template-columns: 1.1fr 0.9fr;
-    }
-
-    .form-card,
-    .status-card,
-    .video-test-card {
-      border: 1px solid var(--gray-200);
-      border-radius: 32px;
-      background: var(--white);
-      padding: 32px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--gray-700);
-    }
-
-    .form-input {
-      width: 100%;
-      border: 1px solid var(--gray-300);
-      border-radius: 16px;
-      padding: 14px 16px;
-      font-size: 15px;
-      color: var(--gray-900);
-      background: var(--white);
-    }
-
-    .lesson-list {
-      display: grid;
-      gap: 14px;
-      margin-top: 22px;
-    }
-
-    .lesson-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      border: 1px solid var(--gray-200);
-      border-radius: 18px;
-      padding: 16px 18px;
-      background: var(--gray-50);
-    }
-
-    .lesson-item strong {
-      display: block;
-      color: var(--black);
-      font-size: 15px;
-    }
-
-    .lesson-item span {
-      display: block;
-      margin-top: 4px;
-      font-size: 13px;
-      color: var(--gray-600);
-    }
-
-    .status-badge {
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-    }
-
-    .status-live {
-      background: #fef2f2;
-      color: var(--red);
-    }
-
-    .status-locked {
-      background: var(--gray-100);
-      color: var(--gray-600);
-    }
-
-    .video-preview-box {
-      width: 100%;
-      min-height: 320px;
-      border: 1px solid var(--gray-200);
-      border-radius: 22px;
-      background: linear-gradient(135deg, var(--gray-50), #ffffff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
-      text-align: center;
-    }
-
-    .video-preview-box strong {
-      display: block;
-      font-size: 22px;
-      color: var(--black);
-      margin-bottom: 12px;
-    }
-
-    .video-preview-box p {
-      margin: 0 0 20px;
-      color: var(--gray-600);
-      font-size: 15px;
-    }
-
     .highlight-grid {
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
@@ -545,14 +446,6 @@
       font-size: 15px;
     }
 
-    .btn-light {
-      width: 100%;
-      background: var(--white);
-      color: var(--gray-950);
-    }
-
-    .btn-light:hover { background: var(--gray-100); }
-
     footer {
       border-top: 1px solid var(--gray-200);
       background: var(--gray-50);
@@ -577,6 +470,111 @@
 
     .footer-note strong { color: var(--black); }
 
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.72);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      background: var(--white);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(15, 23, 42, 0.28);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      background: linear-gradient(135deg, #111827 0%, #1f2937 55%, #b91c1c 100%);
+      color: var(--white);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .modal-header p {
+      margin: 6px 0 0;
+      color: #e5e7eb;
+      font-size: 14px;
+    }
+
+    .modal-close {
+      border: 0;
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow: auto;
+      background: var(--white);
+    }
+
+    .modal-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .modal-item {
+      border: 1px solid var(--gray-200);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--gray-50);
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-item-text strong {
+      display: block;
+      color: var(--black);
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .modal-item-text span {
+      color: var(--gray-600);
+      font-size: 14px;
+    }
+
+    .coming-soon-box {
+      border: 1px solid var(--gray-200);
+      border-radius: 22px;
+      padding: 24px;
+      background: var(--gray-50);
+      color: var(--gray-700);
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
     svg {
       width: 24px;
       height: 24px;
@@ -590,7 +588,6 @@
     @media (max-width: 1100px) {
       .hero-grid,
       .highlight-grid,
-      .flow-grid,
       .footer-grid {
         grid-template-columns: 1fr;
       }
@@ -617,11 +614,14 @@
       .hero-panel-inner, .drive-panel { padding: 24px; }
       .container { padding: 0 18px; }
       .logo-image { height: 56px; }
+      .modal-content { max-height: 95vh; border-radius: 22px; }
+      .modal-header { padding: 16px; }
+      .modal-body { padding: 16px; }
+      .modal-item { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
 <body>
-  <div id="training-home" class="portal-page active">
   <header class="hero">
     <div class="container">
       <div class="hero-grid">
@@ -641,7 +641,7 @@
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="#training-library">View Training Categories</a>
-            <a class="btn btn-secondary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
+            <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
           </div>
         </div>
 
@@ -682,7 +682,7 @@
         <div class="section-header">
           <p class="section-label">Training Library</p>
           <h2>Training Categories</h2>
-          <p>Select the area you want to learn from below. Each section can link to a specific Google Drive folder, video playlist, or document collection.</p>
+          <p>Select the area you want to learn from below. Choose a category and then choose the exact video you want to watch.</p>
         </div>
 
         <div class="cards-grid">
@@ -697,8 +697,8 @@
               <span class="card-badge">Start Here</span>
             </div>
             <h3>Induction & Orientation</h3>
-            <p>Core onboarding videos for new KW North agents, including introduction, setup, expectations, and how to get started correctly.</p>
-            <button class="btn btn-primary" type="button" onclick="showPortalPage('induction-portal')">Open Induction Portal</button>
+            <p>Core onboarding sessions for new agents, from Session 1 through Session 14.</p>
+            <button class="btn btn-primary" type="button" onclick="openModal('inductionModal')">Open Videos</button>
           </article>
 
           <article class="card">
@@ -715,7 +715,7 @@
             </div>
             <h3>KW Command Training</h3>
             <p>Videos covering contacts, tasks, SmartPlans, opportunities, dashboard basics, and practical Command workflows.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            <button class="btn btn-primary" type="button" onclick="openModal('commandModal')">Open Videos</button>
           </article>
 
           <article class="card">
@@ -731,7 +731,7 @@
             </div>
             <h3>MAPP & Listings</h3>
             <p>Training videos on MAPP, listing processes, listing quality, feeds, and how to work accurately on the listing systems.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            <button class="btn btn-primary" type="button" onclick="openModal('mappModal')">Open Videos</button>
           </article>
 
           <article class="card">
@@ -743,11 +743,11 @@
                   <path d="M4 18h10"></path>
                 </svg>
               </div>
-              <span class="card-badge">Admin</span>
+              <span class="card-badge">LOOM</span>
             </div>
-            <h3>Compliance & Admin</h3>
-            <p>Resources focused on agent paperwork, compliance requirements, internal processes, and practical office procedures.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            <h3>LOOM</h3>
+            <p>Training focused on LOOM reports, contact information access, sectional title details, and troubleshooting common report issues.</p>
+            <button class="btn btn-primary" type="button" onclick="openModal('loomModal')">Open Videos</button>
           </article>
 
           <article class="card">
@@ -760,11 +760,11 @@
                   <path d="M5 3h14a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Z"></path>
                 </svg>
               </div>
-              <span class="card-badge">Growth</span>
+              <span class="card-badge">Other</span>
             </div>
-            <h3>Sales & Productivity</h3>
-            <p>Training focused on lead generation, conversations, appointments, listings, time blocking, and agent productivity habits.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            <h3>Other Training</h3>
+            <p>Additional technical and practical training content for common system issues and agent support topics.</p>
+            <button class="btn btn-primary" type="button" onclick="openModal('otherModal')">Open Videos</button>
           </article>
 
           <article class="card">
@@ -778,7 +778,7 @@
             </div>
             <h3>Helpful Resources</h3>
             <p>Extra videos, reference material, documents, and useful support content for day-to-day agent questions and development.</p>
-            <a class="btn btn-primary" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Folder</a>
+            <button class="btn btn-primary" type="button" onclick="openModal('resourcesModal')">Open</button>
           </article>
         </div>
       </section>
@@ -789,7 +789,7 @@
             <div class="section-header" style="margin-bottom: 0; max-width: 100%;">
               <p class="section-label">Quick Access</p>
               <h2>Main Training Drive</h2>
-              <p>Use the shared Drive folder as your main library for training videos and supporting material. This is where new agents can return any time to continue learning.</p>
+              <p>Use the shared Drive folder as your main library for training videos and supporting material. This is where agents can return any time to continue learning.</p>
             </div>
 
             <div class="bullet-list">
@@ -809,8 +809,8 @@
               </svg>
             </div>
             <h3>Open Training Drive</h3>
-            <p>Replace this placeholder with your main Google Drive training folder link so agents can go directly to the full video library.</p>
-            <a class="btn btn-light" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
+            <p>Use this link for full access to the shared KW training library.</p>
+            <a class="btn btn-light" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
           </div>
         </div>
       </section>
@@ -829,174 +829,126 @@
       </div>
     </div>
   </footer>
-</div>
 
-<div id="induction-portal" class="portal-page">
-  <header class="hero">
-    <div class="container">
-      <div class="hero-grid">
+  <div class="modal-overlay" id="inductionModal">
+    <div class="modal-content">
+      <div class="modal-header">
         <div>
-          <div class="eyebrow">KW North Induction Portal</div>
-          <h1>Induction & Orientation</h1>
-          <p class="hero-subtitle">Step 1: Capture agent details before starting the training sequence.</p>
-          <p class="hero-text">This second page shows how the induction flow can begin after the agent clicks on Induction & Orientation. In the full version, this is where KW email login, name and surname capture, progress tracking, and lesson unlocking will begin.</p>
-
-          <div class="hero-actions">
-            <button class="btn btn-secondary" type="button" onclick="showPortalPage('training-home')">Back to Training Hub</button>
-          </div>
+          <h3>Induction & Orientation</h3>
+          <p>Select the induction session you want to watch.</p>
         </div>
-
-        <div class="hero-panel">
-          <div class="hero-panel-inner">
-            <div class="hero-panel-top">
-              <div>
-                <p class="mini-label">Induction Flow</p>
-                <h2>Login, track, unlock</h2>
-              </div>
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 3v18"></path>
-                  <path d="M3 12h18"></path>
-                </svg>
-              </div>
-            </div>
-
-            <div class="support-grid">
-              <div class="support-box">
-                <strong>KW email access</strong>
-                <span>Only approved KW users should enter the training flow</span>
-              </div>
-              <div class="support-box">
-                <strong>Sequential learning</strong>
-                <span>Each video unlocks only after quiz completion</span>
-              </div>
-            </div>
-          </div>
+        <button class="modal-close" type="button" onclick="closeModal('inductionModal')">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-list">
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 1</strong><span>Induction session 1.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 2</strong><span>Induction session 2.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 3</strong><span>Induction session 3.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/14flcLWujwSms4WfwfkBjRFhB_MysADEb/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 4</strong><span>Induction session 4.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1fEYi75PdacOexsW9ISSU9-zgUG1Hevl3/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 4.5</strong><span>Induction session 4.5.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KEkPthpAnwlmKBMHO-EumnRTx55p5Qb4/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 5</strong><span>Induction session 5.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1iq2HA8ERPKXSM5R6jZX6fEeLTgCIBraH/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 6</strong><span>Induction session 6.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1zySGaGJXAWCqZbwq7SLm1TnqvTKMtKKm/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 7</strong><span>Induction session 7.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1YX-SSvvVI3RcRzYj5mRGMI75b7mgdFHp/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 8</strong><span>Induction session 8.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1uWLllVK5mz_U8h2PGnXFVB9M944aTdon/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 9</strong><span>Induction session 9.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1nsjd5zPd0_9-KFbEYucwA9LD4sdK3L01/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 10</strong><span>Induction session 10.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ExR6OZvhTw8IkjrAUF4Jw-84wM_Z5FZw/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 11</strong><span>Induction session 11.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XPQoHQ-Em_Sjc-C8QiwajrdnVuZGw-q0/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 12</strong><span>Induction session 12.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1d5KSRth44HT5mE0LLeU5theWUvRrBLJa/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 13</strong><span>Induction session 13.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/15eLSpkwzYTBhjXeuux0tMsBDl9_O_AFd/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Session 14</strong><span>Induction session 14.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1IAsFqAjzNZ2RGRLUyb0fKEH5gUEqHsJM/preview')">Watch</button></div>
         </div>
       </div>
     </div>
-  </header>
+  </div>
 
-  <main>
-    <div class="container">
-      <section>
-        <div class="section-header">
-          <p class="section-label">Page 2</p>
-          <h2>Agent Setup & Induction Preview</h2>
-          <p>This is the first setup page for the induction process. It can later be connected to real login, progress tracking, and quiz completion logic.</p>
+  <div class="modal-overlay" id="commandModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>KW Command Training</h3>
+          <p>Select the Command training video you want to watch.</p>
         </div>
-
-        <div class="flow-grid">
-          <div class="form-card">
-            <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
-              <p class="section-label">Agent Details</p>
-              <h2 style="font-size: 30px;">Login / Profile Capture</h2>
-              <p>In the real system, the KW email would come from sign-in. For now, this page shows the structure of the setup step.</p>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">KW Email Address</label>
-              <input class="form-input" type="email" placeholder="name@kwnorth.co.za" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <input class="form-input" type="text" placeholder="Enter first name" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Surname</label>
-              <input class="form-input" type="text" placeholder="Enter surname" />
-            </div>
-
-            <a class="btn btn-primary" href="#induction-videos">Continue to Induction Videos</a>
-          </div>
-
-          <div class="status-card" style="background: var(--gray-950); color: var(--white);">
-            <div class="section-header" style="margin-bottom: 20px; max-width: 100%;">
-              <p class="section-label" style="color: #fecaca;">Flow Preview</p>
-              <h2 style="font-size: 30px; color: var(--white);">What happens next</h2>
-              <p style="color: #d1d5db;">Once the real system is connected, the agent journey will follow a tracked sequence.</p>
-            </div>
-
-            <div class="lesson-list">
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 1 — Login with KW Email</strong>
-                  <span style="color: #d1d5db;">User identity is captured for progress tracking</span>
-                </div>
-                <span class="status-badge status-live">Live Next</span>
-              </div>
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 2 — Watch Video 1</strong>
-                  <span style="color: #d1d5db;">Induction begins with the first training lesson</span>
-                </div>
-                <span class="status-badge status-live">Unlocked</span>
-              </div>
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 3 — Complete 5 Questions</strong>
-                  <span style="color: #d1d5db;">Quiz pass unlocks the next lesson</span>
-                </div>
-                <span class="status-badge status-locked">Sequence</span>
-              </div>
-              <div class="lesson-item" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1);">
-                <div>
-                  <strong style="color: var(--white);">Step 4 — Admin Tracking</strong>
-                  <span style="color: #d1d5db;">You can monitor where each agent stopped</span>
-                </div>
-                <span class="status-badge status-locked">Tracked</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="induction-videos" class="highlight-section">
-        <div class="section-header" style="max-width: 100%;">
-          <p class="section-label">Drive Video Test</p>
-          <h2>Induction Video Access Test</h2>
-          <p>This version avoids loading Drive automatically inside the preview. Instead, each test video opens in a new tab when clicked.</p>
-        </div>
-
-        <div class="flow-grid">
-          <div class="video-test-card">
-            <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 1</h3>
-            <div class="video-preview-box">
-              <div>
-                <strong>Drive Video Test 1</strong>
-                <p>Click below to open the first induction video in a new tab for testing.</p>
-                <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Open Video 1</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="video-test-card">
-            <h3 style="margin-top: 0; font-size: 24px; color: var(--black);">Test Video 2</h3>
-            <div class="video-preview-box">
-              <div>
-                <strong>Drive Video Test 2</strong>
-                <p>Click below to open the second induction video in a new tab for testing.</p>
-                <button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Open Video 2</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-note">
-          <strong>Prototype note:</strong> This second page is a front-end flow preview only. The real version will use login, saved progress, quiz results, and sequential unlock logic.
-        </div>
-        <div class="footer-note">
-          <strong>Next build step:</strong> Once the page structure is approved, the live version can connect the login and tracking system behind this induction flow.
+        <button class="modal-close" type="button" onclick="closeModal('commandModal')">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-list">
+          <div class="modal-item"><div class="modal-item-text"><strong>Adding Contacts onto your Command using your Phone</strong><span>Mobile contact importing and setup training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1_e7o19kOOs7kwGL-Dn5fJwHZuvuLbnpR/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>How to action out Task using Command on your smart phone</strong><span>Using Command task workflows on mobile.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1VrjWF3O1rrfwMUPZI2UrYmbBrQNL3QLc/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>How to Action Your Tasks in Command</strong><span>Desktop task completion workflow training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/125ahihTtXnJtCzjzwNedC8ROUCx-j7Uz/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>How to add Smart Plans and add your contacts</strong><span>SmartPlan setup and contact assignment training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/13HAzVNAw3ed78tNyZQWMy5meir8XQlRD/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Birthday Smart Plan training</strong><span>Birthday SmartPlan setup and usage.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KsOgabj4Qx6We4061ZRtR3h6cA3g4_n0/preview')">Watch</button></div>
         </div>
       </div>
     </div>
-  </footer>
-</div>
+  </div>
+
+  <div class="modal-overlay" id="mappModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>MAPP & Listings</h3>
+          <p>Select the MAPP or listing video you want to watch.</p>
+        </div>
+        <button class="modal-close" type="button" onclick="closeModal('mappModal')">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-list">
+          <div class="modal-item"><div class="modal-item-text"><strong>How to load your listing on MAPP</strong><span>Listing upload process on MAPP.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1AdWWPPrsMq0qyMTlPwTReC5M2tsff2Nf/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Creating Links for your website with all listings</strong><span>Website link creation for listings.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XAg-_i8JdFLQ7W6dt0sPBMH4JTgLBq6p/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Making Flyers on MAPP</strong><span>Create listing flyers in MAPP.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1WUM1slaQ0Li1OS5H4h1mUVul44xx5CEm/preview')">Watch</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="loomModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>LOOM</h3>
+          <p>Select the LOOM video you want to watch.</p>
+        </div>
+        <button class="modal-close" type="button" onclick="closeModal('loomModal')">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-list">
+          <div class="modal-item"><div class="modal-item-text"><strong>Accessing Contact Info street & Sectional Titles</strong><span>Working with contact info, street, and sectional title data.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PFeB2Ebly1yyRCkXfKCreEy0xGeegu8K/preview')">Watch</button></div>
+          <div class="modal-item"><div class="modal-item-text"><strong>Error Pulling LOOM reports</strong><span>Troubleshooting common LOOM report pull issues.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1UG4JwIctEN2ufWc_h9428IO5eKuWkIP-/preview')">Watch</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="otherModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>Other Training</h3>
+          <p>Select the training video you want to watch.</p>
+        </div>
+        <button class="modal-close" type="button" onclick="closeModal('otherModal')">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-list">
+          <div class="modal-item"><div class="modal-item-text"><strong>Clearing browser history and Cache</strong><span>Browser troubleshooting and cache clearing guide.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ADA8DhhDhq-E3kZR6CyhmCuxKtg6EV-I/preview')">Watch</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="resourcesModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>Helpful Resources</h3>
+          <p>This section is reserved for future content.</p>
+        </div>
+        <button class="modal-close" type="button" onclick="closeModal('resourcesModal')">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="coming-soon-box">Coming soon</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
