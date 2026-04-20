@@ -3,37 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KW North New Agent Training Hub</title>
-  <script>
-    function openDriveLink(url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-
-    function openModal(modalId) {
-      var modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function closeModal(modalId) {
-      var modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-
-    window.addEventListener('click', function (event) {
-      document.querySelectorAll('.modal-overlay').forEach(function(modal) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }
-      });
-    });
-  </script>
+  <title>KW North Training Hub</title>
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="KW North Hub" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <style>
     :root {
       --red: #d32f2f;
@@ -41,6 +17,7 @@
       --black: #111111;
       --gray-950: #151515;
       --gray-900: #1f2937;
+      --gray-800: #111827;
       --gray-700: #4b5563;
       --gray-600: #6b7280;
       --gray-300: #d1d5db;
@@ -48,9 +25,11 @@
       --gray-100: #f3f4f6;
       --gray-50: #f9fafb;
       --white: #ffffff;
+      --success: #166534;
       --shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.06);
       --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.12);
-      --max-width: 1200px;
+      --max-width: 1240px;
+      --radius-xl: 28px;
     }
 
     * { box-sizing: border-box; }
@@ -59,11 +38,14 @@
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--gray-900);
-      background: linear-gradient(to bottom, var(--white), var(--gray-50), var(--white));
+      background:
+        radial-gradient(circle at top right, rgba(211,47,47,0.08), transparent 24%),
+        linear-gradient(to bottom, var(--white), var(--gray-50), var(--white));
       line-height: 1.5;
     }
 
-    a { text-decoration: none; }
+    body.modal-open { overflow: hidden; }
+    a { text-decoration: none; color: inherit; }
 
     .container {
       width: 100%;
@@ -72,45 +54,142 @@
       padding: 0 24px;
     }
 
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(17,24,39,0.92);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: var(--white);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 78px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--red) 0%, #ef4444 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 800;
+      font-size: 22px;
+      box-shadow: 0 14px 28px rgba(211,47,47,0.28);
+      flex-shrink: 0;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 16px;
+      color: var(--white);
+    }
+
+    .brand-copy span {
+      display: block;
+      color: #cbd5e1;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 620px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .mini-btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .mini-btn:hover { background: rgba(255,255,255,0.14); }
+    .mini-btn.primary {
+      background: var(--red);
+      border-color: transparent;
+    }
+    .mini-btn.primary:hover { background: var(--red-dark); }
+
+    .announce {
+      margin: 18px 0 0;
+      border: 1px solid #fecaca;
+      background: linear-gradient(135deg, #fff5f5 0%, #fff1f2 100%);
+      border-radius: 22px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .announce strong {
+      display: block;
+      color: var(--red-dark);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .announce span {
+      color: var(--gray-700);
+      font-size: 14px;
+    }
+
+    .announce .tag {
+      white-space: nowrap;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fee2e2;
+      color: var(--red-dark);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
     .hero {
       position: relative;
       overflow: hidden;
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-200);
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(10px);
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 380px;
-      height: 380px;
-      right: -120px;
-      top: -120px;
-      background: radial-gradient(circle, rgba(211,47,47,0.18) 0%, rgba(211,47,47,0) 70%);
-    }
-
-    .hero::after {
-      width: 320px;
-      height: 320px;
-      left: -120px;
-      top: 40px;
-      background: radial-gradient(circle, rgba(17,17,17,0.1) 0%, rgba(17,17,17,0) 70%);
+      padding: 32px 0 10px;
     }
 
     .hero-grid {
-      position: relative;
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 40px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 34px;
       align-items: center;
-      padding: 72px 0;
+      padding: 36px 0 42px;
     }
 
     .eyebrow {
@@ -130,7 +209,7 @@
     h1 {
       margin: 18px 0 0;
       font-size: 52px;
-      line-height: 1.05;
+      line-height: 1.04;
       color: var(--black);
     }
 
@@ -143,34 +222,16 @@
 
     .hero-text {
       margin: 18px 0 0;
-      max-width: 720px;
+      max-width: 760px;
       font-size: 17px;
       color: var(--gray-600);
-    }
-
-    .logo-block {
-      margin-top: 24px;
-      display: inline-flex;
-      align-items: center;
-      padding: 14px 18px;
-      border: 1px solid var(--gray-200);
-      border-radius: 18px;
-      background: var(--white);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .logo-image {
-      display: block;
-      height: 70px;
-      width: auto;
-      max-width: 100%;
     }
 
     .hero-actions {
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
-      margin-top: 30px;
+      margin-top: 28px;
     }
 
     .btn {
@@ -200,14 +261,6 @@
     }
 
     .btn-secondary:hover { background: var(--gray-50); }
-
-    .btn-light {
-      width: 100%;
-      background: var(--white);
-      color: var(--gray-950);
-    }
-
-    .btn-light:hover { background: var(--gray-100); }
 
     .hero-panel {
       background: rgba(255,255,255,0.96);
@@ -247,18 +300,6 @@
       color: var(--white);
     }
 
-    .icon-box {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.16);
-      flex-shrink: 0;
-    }
-
     .support-grid {
       margin-top: 24px;
       display: grid;
@@ -284,11 +325,44 @@
       font-size: 14px;
     }
 
-    main { padding: 56px 0 80px; }
+    .utility-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
+      margin-top: 10px;
+    }
+
+    .search-wrap label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 16px;
+      border-radius: 16px;
+      border: 1px solid var(--gray-300);
+      font-size: 15px;
+      outline: none;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 4px rgba(211,47,47,0.10);
+    }
+
+    main { padding: 22px 0 86px; }
 
     .section-header {
-      max-width: 820px;
-      margin-bottom: 34px;
+      max-width: 860px;
+      margin-bottom: 28px;
     }
 
     .section-label {
@@ -302,7 +376,7 @@
 
     .section-header h2 {
       margin: 0;
-      font-size: 42px;
+      font-size: 40px;
       line-height: 1.1;
       color: var(--black);
     }
@@ -336,6 +410,8 @@
       box-shadow: var(--shadow-lg);
     }
 
+    .card.hidden-by-search { display: none; }
+
     .card-top {
       display: flex;
       justify-content: space-between;
@@ -355,6 +431,8 @@
       background: #fef2f2;
       border: 1px solid #fecaca;
       flex-shrink: 0;
+      font-size: 20px;
+      font-weight: 800;
     }
 
     .card-badge {
@@ -384,7 +462,7 @@
     }
 
     .highlight-section {
-      margin-top: 72px;
+      margin-top: 56px;
       border: 1px solid var(--gray-200);
       border-radius: 32px;
       background: var(--white);
@@ -423,18 +501,8 @@
       box-shadow: var(--shadow-lg);
     }
 
-    .drive-panel .panel-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      background: var(--red);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
     .drive-panel h3 {
-      margin: 24px 0 10px;
+      margin: 0 0 10px;
       font-size: 30px;
       line-height: 1.15;
       color: var(--white);
@@ -449,7 +517,7 @@
     footer {
       border-top: 1px solid var(--gray-200);
       background: var(--gray-50);
-      padding: 28px 0;
+      padding: 28px 0 110px;
     }
 
     .footer-grid {
@@ -469,6 +537,33 @@
     }
 
     .footer-note strong { color: var(--black); }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 1100;
+      border-radius: 22px;
+      padding: 10px;
+      background: rgba(17,24,39,0.94);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 20px 40px rgba(15,23,42,0.28);
+      border: 1px solid rgba(255,255,255,0.08);
+      gap: 8px;
+    }
+
+    .mobile-nav a {
+      flex: 1;
+      text-align: center;
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 8px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+    }
 
     .modal-overlay {
       display: none;
@@ -526,9 +621,7 @@
       cursor: pointer;
     }
 
-    .modal-close:hover {
-      background: rgba(255,255,255,0.2);
-    }
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
 
     .modal-body {
       padding: 24px;
@@ -536,10 +629,7 @@
       background: var(--white);
     }
 
-    .modal-list {
-      display: grid;
-      gap: 14px;
-    }
+    .modal-list { display: grid; gap: 14px; }
 
     .modal-item {
       border: 1px solid var(--gray-200);
@@ -551,6 +641,8 @@
       justify-content: space-between;
       align-items: center;
     }
+
+    .modal-item.hidden-by-search { display: none; }
 
     .modal-item-text strong {
       display: block;
@@ -575,29 +667,48 @@
       font-weight: 700;
     }
 
-    svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .install-banner {
+      display: none;
+      margin-top: 18px;
+      border: 1px solid var(--gray-200);
+      border-radius: 22px;
+      padding: 16px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
     }
+
+    .install-banner.show { display: flex; }
+
+    .offline-toast {
+      position: fixed;
+      right: 18px;
+      bottom: 88px;
+      z-index: 1150;
+      background: var(--gray-950);
+      color: var(--white);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 14px 32px rgba(15,23,42,0.24);
+      display: none;
+    }
+
+    .offline-toast.show { display: block; }
 
     @media (max-width: 1100px) {
       .hero-grid,
       .highlight-grid,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cards-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      .footer-grid { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 860px) {
+      .topbar-inner,
+      .utility-grid,
       .hero-grid,
       .highlight-grid,
       .cards-grid,
@@ -606,42 +717,83 @@
         grid-template-columns: 1fr;
       }
 
+      .topbar-inner {
+        display: grid;
+        padding: 12px 0;
+      }
+
+      .topbar-actions { justify-content: flex-start; }
       h1 { font-size: 38px; }
       .section-header h2 { font-size: 34px; }
       .hero-subtitle { font-size: 20px; }
-      .hero-grid { padding: 52px 0; }
+      .hero-grid { padding: 20px 0 28px; }
       .highlight-section { padding: 24px; }
       .hero-panel-inner, .drive-panel { padding: 24px; }
       .container { padding: 0 18px; }
-      .logo-image { height: 56px; }
       .modal-content { max-height: 95vh; border-radius: 22px; }
       .modal-header { padding: 16px; }
       .modal-body { padding: 16px; }
       .modal-item { flex-direction: column; align-items: stretch; }
+      .install-banner { flex-direction: column; align-items: stretch; }
+      .mobile-nav { display: flex; }
+    }
+
+    @media (max-width: 640px) {
+      .brand-copy span { white-space: normal; }
+      .announce { flex-direction: column; }
+      .hero-actions, .topbar-actions { width: 100%; }
+      .hero-actions .btn, .topbar-actions .mini-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-badge">KW</div>
+          <div class="brand-copy">
+            <strong>KW North Training Hub</strong>
+            <span>Installable training access for videos, resources, support, and quick actions.</span>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="mini-btn" type="button" onclick="scrollToSection('training-library')">Training</button>
+          <button class="mini-btn" type="button" onclick="scrollToSection('quick-access')">Drive</button>
+          <button class="mini-btn primary" id="installBtn" type="button" style="display:none;">Install App</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <header class="hero">
     <div class="container">
+      <div class="announce">
+        <div>
+          <strong>Future-ready setup is now live</strong>
+          <span>This upgraded hub is installable on mobile and desktop, supports offline basics, and is ready for the next phase with announcements and a secure login layer.</span>
+        </div>
+        <div class="tag">PWA Ready</div>
+      </div>
+
       <div class="hero-grid">
         <div>
           <div class="eyebrow">KW North New Agent Hub</div>
           <h1>KW North Training Videos</h1>
-          <p class="hero-subtitle">A central place for new agents to access training videos and learning resources.</p>
-          <p class="hero-text">Welcome to the KW North training hub. This page is designed to help new agents quickly find the right training videos, access the shared Drive folder, and work through core learning content in one place.</p>
-
-          <div class="logo-block">
-            <img
-              src="KW_LOGO-removebg-preview.png"
-              alt="KW North Keller Williams Realty"
-              class="logo-image"
-            />
-          </div>
+          <p class="hero-subtitle">A cleaner app-style experience for new agents to access training videos and learning resources.</p>
+          <p class="hero-text">This upgraded hub keeps the same KW North look and feel, but adds installability, quick search, offline support, and a stronger app-style navigation experience for agents using mobile or desktop.</p>
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="#training-library">View Training Categories</a>
             <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Training Drive</a>
+          </div>
+
+          <div class="install-banner" id="installBanner">
+            <div>
+              <strong style="display:block; margin-bottom:4px;">Install this hub on your device</strong>
+              <span style="color:#6b7280; font-size:14px;">Add it to your home screen for faster access like an app.</span>
+            </div>
+            <button class="btn btn-primary" type="button" id="installBannerBtn">Install Now</button>
           </div>
         </div>
 
@@ -651,12 +803,6 @@
               <div>
                 <p class="mini-label">New Agent Learning</p>
                 <h2>Start strong from day one</h2>
-              </div>
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 3v18"></path>
-                  <path d="M3 12h18"></path>
-                </svg>
               </div>
             </div>
 
@@ -669,8 +815,23 @@
                 <strong>Shared Drive access</strong>
                 <span>Open the main training folder anytime</span>
               </div>
+              <div class="support-box">
+                <strong>Installable app</strong>
+                <span>Save the hub on mobile or desktop</span>
+              </div>
+              <div class="support-box">
+                <strong>Search-ready</strong>
+                <span>Filter categories and videos faster</span>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="utility-grid">
+        <div class="search-wrap">
+          <label for="hubSearch">Search categories or video topics</label>
+          <input id="hubSearch" class="search-input" type="text" placeholder="Type Command, MAPP, induction, LOOM, browser, listing..." />
         </div>
       </div>
     </div>
@@ -682,18 +843,13 @@
         <div class="section-header">
           <p class="section-label">Training Library</p>
           <h2>Training Categories</h2>
-          <p>Select the area you want to learn from below. Choose a category and then choose the exact video you want to watch.</p>
+          <p>Select the area you want to learn from below. Use search to narrow the view, then open the category and choose the exact video you want to watch.</p>
         </div>
 
-        <div class="cards-grid">
-          <article class="card">
+        <div class="cards-grid" id="categoryGrid">
+          <article class="card searchable-card" data-search="induction orientation onboarding session start here induction and orientation">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 19.5V4.5A1.5 1.5 0 0 1 5.5 3H20"></path>
-                  <path d="M8 7h12v14H8a4 4 0 0 1 0-8h12"></path>
-                </svg>
-              </div>
+              <div class="card-icon">1</div>
               <span class="card-badge">Start Here</span>
             </div>
             <h3>Induction & Orientation</h3>
@@ -701,16 +857,9 @@
             <button class="btn btn-primary" type="button" onclick="openModal('inductionModal')">Open Videos</button>
           </article>
 
-          <article class="card">
+          <article class="card searchable-card" data-search="command kw command contacts tasks smartplans opportunities dashboard workflows">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <rect x="3.5" y="5" width="17" height="11" rx="2"></rect>
-                  <path d="M8 19h8"></path>
-                  <path d="M10 16v3"></path>
-                  <path d="M14 16v3"></path>
-                </svg>
-              </div>
+              <div class="card-icon">C</div>
               <span class="card-badge">Tech</span>
             </div>
             <h3>KW Command Training</h3>
@@ -718,15 +867,9 @@
             <button class="btn btn-primary" type="button" onclick="openModal('commandModal')">Open Videos</button>
           </article>
 
-          <article class="card">
+          <article class="card searchable-card" data-search="mapp listings listing processes quality feeds website flyers">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 20V10"></path>
-                  <path d="m18 20-6-6-6 6"></path>
-                  <path d="M6 4h12"></path>
-                </svg>
-              </div>
+              <div class="card-icon">M</div>
               <span class="card-badge">Listings</span>
             </div>
             <h3>MAPP & Listings</h3>
@@ -734,15 +877,9 @@
             <button class="btn btn-primary" type="button" onclick="openModal('mappModal')">Open Videos</button>
           </article>
 
-          <article class="card">
+          <article class="card searchable-card" data-search="loom reports contacts sectional title troubleshooting report issues">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 12h16"></path>
-                  <path d="M4 6h16"></path>
-                  <path d="M4 18h10"></path>
-                </svg>
-              </div>
+              <div class="card-icon">L</div>
               <span class="card-badge">LOOM</span>
             </div>
             <h3>LOOM</h3>
@@ -750,16 +887,9 @@
             <button class="btn btn-primary" type="button" onclick="openModal('loomModal')">Open Videos</button>
           </article>
 
-          <article class="card">
+          <article class="card searchable-card" data-search="other training cache browser troubleshooting support technical">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M7 10v4"></path>
-                  <path d="M12 7v10"></path>
-                  <path d="M17 13v1"></path>
-                  <path d="M5 3h14a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Z"></path>
-                </svg>
-              </div>
+              <div class="card-icon">+</div>
               <span class="card-badge">Other</span>
             </div>
             <h3>Other Training</h3>
@@ -767,13 +897,9 @@
             <button class="btn btn-primary" type="button" onclick="openModal('otherModal')">Open Videos</button>
           </article>
 
-          <article class="card">
+          <article class="card searchable-card" data-search="helpful resources documents support material extra videos future content">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path>
-                </svg>
-              </div>
+              <div class="card-icon">R</div>
               <span class="card-badge">Support</span>
             </div>
             <h3>Helpful Resources</h3>
@@ -783,34 +909,27 @@
         </div>
       </section>
 
-      <section class="highlight-section">
+      <section class="highlight-section" id="quick-access">
         <div class="highlight-grid">
           <div>
             <div class="section-header" style="margin-bottom: 0; max-width: 100%;">
               <p class="section-label">Quick Access</p>
               <h2>Main Training Drive</h2>
-              <p>Use the shared Drive folder as your main library for training videos and supporting material. This is where agents can return any time to continue learning.</p>
+              <p>Use the shared Drive folder as your main library for training videos and supporting material. This remains the core location for agents to continue learning at any time.</p>
             </div>
 
             <div class="bullet-list">
               <div class="bullet-item">Training videos for new agents</div>
               <div class="bullet-item">KW Command and MAPP resources</div>
               <div class="bullet-item">Office processes and support material</div>
-              <div class="bullet-item">Easy central access from one link</div>
+              <div class="bullet-item">Installable app-style access from one branded entry point</div>
             </div>
           </div>
 
           <div class="drive-panel">
-            <div class="panel-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <path d="M14 3h7v7"></path>
-                <path d="M10 14 21 3"></path>
-              </svg>
-            </div>
             <h3>Open Training Drive</h3>
             <p>Use this link for full access to the shared KW training library.</p>
-            <a class="btn btn-light" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
+            <a class="btn btn-secondary" style="background:#fff; color:#111827; width:100%;" href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Google Drive</a>
           </div>
         </div>
       </section>
@@ -821,14 +940,22 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-note">
-          <strong>Training hub:</strong> Use this page as the central access point for KW North agent training videos, learning resources, and practical support content.
+          <strong>Training hub:</strong> This page is now structured as a Progressive Web App style hub for KW North training videos, learning resources, and practical support content.
         </div>
         <div class="footer-note">
-          <strong>Learning experience:</strong> Browse each training category, open the relevant video menu, and select the session you want to watch at your own pace.
+          <strong>Next upgrade:</strong> The next phase can add a real secure login layer, push-style announcements, tracked progress, and role-based pages.
         </div>
       </div>
     </div>
   </footer>
+
+  <nav class="mobile-nav">
+    <a href="#training-library">Training</a>
+    <a href="#quick-access">Drive</a>
+    <a href="https://drive.google.com/drive/folders/12bqVK2l5WTiPc9IgO_zXUPE5H8mP-vOE?usp=drive_link" target="_blank" rel="noopener noreferrer">Open</a>
+  </nav>
+
+  <div class="offline-toast" id="offlineToast">You are offline. Previously loaded hub pages can still open.</div>
 
   <div class="modal-overlay" id="inductionModal">
     <div class="modal-content">
@@ -841,21 +968,21 @@
       </div>
       <div class="modal-body">
         <div class="modal-list">
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 1</strong><span>Induction session 1.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 2</strong><span>Induction session 2.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 3</strong><span>Induction session 3.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/14flcLWujwSms4WfwfkBjRFhB_MysADEb/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 4</strong><span>Induction session 4.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1fEYi75PdacOexsW9ISSU9-zgUG1Hevl3/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 4.5</strong><span>Induction session 4.5.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KEkPthpAnwlmKBMHO-EumnRTx55p5Qb4/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 5</strong><span>Induction session 5.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1iq2HA8ERPKXSM5R6jZX6fEeLTgCIBraH/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 6</strong><span>Induction session 6.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1zySGaGJXAWCqZbwq7SLm1TnqvTKMtKKm/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 7</strong><span>Induction session 7.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1YX-SSvvVI3RcRzYj5mRGMI75b7mgdFHp/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 8</strong><span>Induction session 8.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1uWLllVK5mz_U8h2PGnXFVB9M944aTdon/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 9</strong><span>Induction session 9.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1nsjd5zPd0_9-KFbEYucwA9LD4sdK3L01/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 10</strong><span>Induction session 10.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ExR6OZvhTw8IkjrAUF4Jw-84wM_Z5FZw/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 11</strong><span>Induction session 11.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XPQoHQ-Em_Sjc-C8QiwajrdnVuZGw-q0/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 12</strong><span>Induction session 12.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1d5KSRth44HT5mE0LLeU5theWUvRrBLJa/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 13</strong><span>Induction session 13.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/15eLSpkwzYTBhjXeuux0tMsBDl9_O_AFd/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Session 14</strong><span>Induction session 14.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1IAsFqAjzNZ2RGRLUyb0fKEH5gUEqHsJM/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 1 induction orientation onboarding"><div class="modal-item-text"><strong>Session 1</strong><span>Induction session 1.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PStPqqQA6eAQnrIjYt0cauwXZONEjNRn/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 2 induction orientation onboarding"><div class="modal-item-text"><strong>Session 2</strong><span>Induction session 2.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1tVM5D2MtcryqouV9Ej7qBtyNv0_onMFe/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 3 induction orientation onboarding"><div class="modal-item-text"><strong>Session 3</strong><span>Induction session 3.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/14flcLWujwSms4WfwfkBjRFhB_MysADEb/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 4 induction orientation onboarding"><div class="modal-item-text"><strong>Session 4</strong><span>Induction session 4.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1fEYi75PdacOexsW9ISSU9-zgUG1Hevl3/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 4.5 induction orientation onboarding"><div class="modal-item-text"><strong>Session 4.5</strong><span>Induction session 4.5.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KEkPthpAnwlmKBMHO-EumnRTx55p5Qb4/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 5 induction orientation onboarding"><div class="modal-item-text"><strong>Session 5</strong><span>Induction session 5.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1iq2HA8ERPKXSM5R6jZX6fEeLTgCIBraH/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 6 induction orientation onboarding"><div class="modal-item-text"><strong>Session 6</strong><span>Induction session 6.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1zySGaGJXAWCqZbwq7SLm1TnqvTKMtKKm/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 7 induction orientation onboarding"><div class="modal-item-text"><strong>Session 7</strong><span>Induction session 7.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1YX-SSvvVI3RcRzYj5mRGMI75b7mgdFHp/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 8 induction orientation onboarding"><div class="modal-item-text"><strong>Session 8</strong><span>Induction session 8.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1uWLllVK5mz_U8h2PGnXFVB9M944aTdon/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 9 induction orientation onboarding"><div class="modal-item-text"><strong>Session 9</strong><span>Induction session 9.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1nsjd5zPd0_9-KFbEYucwA9LD4sdK3L01/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 10 induction orientation onboarding"><div class="modal-item-text"><strong>Session 10</strong><span>Induction session 10.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ExR6OZvhTw8IkjrAUF4Jw-84wM_Z5FZw/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 11 induction orientation onboarding"><div class="modal-item-text"><strong>Session 11</strong><span>Induction session 11.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XPQoHQ-Em_Sjc-C8QiwajrdnVuZGw-q0/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 12 induction orientation onboarding"><div class="modal-item-text"><strong>Session 12</strong><span>Induction session 12.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1d5KSRth44HT5mE0LLeU5theWUvRrBLJa/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 13 induction orientation onboarding"><div class="modal-item-text"><strong>Session 13</strong><span>Induction session 13.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/15eLSpkwzYTBhjXeuux0tMsBDl9_O_AFd/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="session 14 induction orientation onboarding"><div class="modal-item-text"><strong>Session 14</strong><span>Induction session 14.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1IAsFqAjzNZ2RGRLUyb0fKEH5gUEqHsJM/preview')">Watch</button></div>
         </div>
       </div>
     </div>
@@ -872,11 +999,11 @@
       </div>
       <div class="modal-body">
         <div class="modal-list">
-          <div class="modal-item"><div class="modal-item-text"><strong>Adding Contacts onto your Command using your Phone</strong><span>Mobile contact importing and setup training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1_e7o19kOOs7kwGL-Dn5fJwHZuvuLbnpR/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>How to action out Task using Command on your smart phone</strong><span>Using Command task workflows on mobile.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1VrjWF3O1rrfwMUPZI2UrYmbBrQNL3QLc/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>How to Action Your Tasks in Command</strong><span>Desktop task completion workflow training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/125ahihTtXnJtCzjzwNedC8ROUCx-j7Uz/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>How to add Smart Plans and add your contacts</strong><span>SmartPlan setup and contact assignment training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/13HAzVNAw3ed78tNyZQWMy5meir8XQlRD/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Birthday Smart Plan training</strong><span>Birthday SmartPlan setup and usage.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KsOgabj4Qx6We4061ZRtR3h6cA3g4_n0/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="adding contacts command phone mobile import contacts"><div class="modal-item-text"><strong>Adding Contacts onto your Command using your Phone</strong><span>Mobile contact importing and setup training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1_e7o19kOOs7kwGL-Dn5fJwHZuvuLbnpR/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="action task using command smartphone smart phone"><div class="modal-item-text"><strong>How to action out Task using Command on your smart phone</strong><span>Using Command task workflows on mobile.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1VrjWF3O1rrfwMUPZI2UrYmbBrQNL3QLc/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="action your tasks command desktop task workflow"><div class="modal-item-text"><strong>How to Action Your Tasks in Command</strong><span>Desktop task completion workflow training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/125ahihTtXnJtCzjzwNedC8ROUCx-j7Uz/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="smart plans smartplans add contacts command"><div class="modal-item-text"><strong>How to add Smart Plans and add your contacts</strong><span>SmartPlan setup and contact assignment training.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/13HAzVNAw3ed78tNyZQWMy5meir8XQlRD/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="birthday smart plan training"><div class="modal-item-text"><strong>Birthday Smart Plan training</strong><span>Birthday SmartPlan setup and usage.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1KsOgabj4Qx6We4061ZRtR3h6cA3g4_n0/preview')">Watch</button></div>
         </div>
       </div>
     </div>
@@ -893,9 +1020,9 @@
       </div>
       <div class="modal-body">
         <div class="modal-list">
-          <div class="modal-item"><div class="modal-item-text"><strong>How to load your listing on MAPP</strong><span>Listing upload process on MAPP.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1AdWWPPrsMq0qyMTlPwTReC5M2tsff2Nf/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Creating Links for your website with all listings</strong><span>Website link creation for listings.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XAg-_i8JdFLQ7W6dt0sPBMH4JTgLBq6p/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Making Flyers on MAPP</strong><span>Create listing flyers in MAPP.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1WUM1slaQ0Li1OS5H4h1mUVul44xx5CEm/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="load listing on mapp"><div class="modal-item-text"><strong>How to load your listing on MAPP</strong><span>Listing upload process on MAPP.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1AdWWPPrsMq0qyMTlPwTReC5M2tsff2Nf/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="creating links website listings"><div class="modal-item-text"><strong>Creating Links for your website with all listings</strong><span>Website link creation for listings.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1XAg-_i8JdFLQ7W6dt0sPBMH4JTgLBq6p/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="making flyers mapp"><div class="modal-item-text"><strong>Making Flyers on MAPP</strong><span>Create listing flyers in MAPP.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1WUM1slaQ0Li1OS5H4h1mUVul44xx5CEm/preview')">Watch</button></div>
         </div>
       </div>
     </div>
@@ -912,8 +1039,8 @@
       </div>
       <div class="modal-body">
         <div class="modal-list">
-          <div class="modal-item"><div class="modal-item-text"><strong>Accessing Contact Info street & Sectional Titles</strong><span>Working with contact info, street, and sectional title data.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PFeB2Ebly1yyRCkXfKCreEy0xGeegu8K/preview')">Watch</button></div>
-          <div class="modal-item"><div class="modal-item-text"><strong>Error Pulling LOOM reports</strong><span>Troubleshooting common LOOM report pull issues.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1UG4JwIctEN2ufWc_h9428IO5eKuWkIP-/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="accessing contact info street sectional titles loom"><div class="modal-item-text"><strong>Accessing Contact Info street & Sectional Titles</strong><span>Working with contact info, street, and sectional title data.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1PFeB2Ebly1yyRCkXfKCreEy0xGeegu8K/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="error pulling loom reports troubleshooting"><div class="modal-item-text"><strong>Error Pulling LOOM reports</strong><span>Troubleshooting common LOOM report pull issues.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1UG4JwIctEN2ufWc_h9428IO5eKuWkIP-/preview')">Watch</button></div>
         </div>
       </div>
     </div>
@@ -930,7 +1057,7 @@
       </div>
       <div class="modal-body">
         <div class="modal-list">
-          <div class="modal-item"><div class="modal-item-text"><strong>Clearing browser history and Cache</strong><span>Browser troubleshooting and cache clearing guide.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ADA8DhhDhq-E3kZR6CyhmCuxKtg6EV-I/preview')">Watch</button></div>
+          <div class="modal-item searchable-item" data-search="clearing browser history cache troubleshooting"><div class="modal-item-text"><strong>Clearing browser history and Cache</strong><span>Browser troubleshooting and cache clearing guide.</span></div><button class="btn btn-primary" type="button" onclick="openDriveLink('https://drive.google.com/file/d/1ADA8DhhDhq-E3kZR6CyhmCuxKtg6EV-I/preview')">Watch</button></div>
         </div>
       </div>
     </div>
@@ -950,5 +1077,115 @@
       </div>
     </div>
   </div>
+
+  <script>
+    let deferredPrompt = null;
+
+    function openDriveLink(url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (!modal) return;
+      modal.style.display = 'flex';
+      document.body.classList.add('modal-open');
+      applySearchToModal(modal);
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (!modal) return;
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    window.addEventListener('click', function (event) {
+      document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+          document.body.classList.remove('modal-open');
+        }
+      });
+    });
+
+    function normalizedText(text) {
+      return String(text || '').trim().toLowerCase();
+    }
+
+    function filterSearchables(query) {
+      const q = normalizedText(query);
+      document.querySelectorAll('.searchable-card').forEach(card => {
+        const hay = normalizedText(card.dataset.search + ' ' + card.innerText);
+        card.classList.toggle('hidden-by-search', q && !hay.includes(q));
+      });
+
+      document.querySelectorAll('.modal-overlay').forEach(modal => applySearchToModal(modal));
+    }
+
+    function applySearchToModal(modal) {
+      const q = normalizedText(document.getElementById('hubSearch').value);
+      modal.querySelectorAll('.searchable-item').forEach(item => {
+        const hay = normalizedText(item.dataset.search + ' ' + item.innerText);
+        item.classList.toggle('hidden-by-search', q && !hay.includes(q));
+      });
+    }
+
+    async function triggerInstall() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      hideInstallUi();
+    }
+
+    function showInstallUi() {
+      document.getElementById('installBtn').style.display = 'inline-flex';
+      document.getElementById('installBanner').classList.add('show');
+    }
+
+    function hideInstallUi() {
+      document.getElementById('installBtn').style.display = 'none';
+      document.getElementById('installBanner').classList.remove('show');
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallUi();
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      hideInstallUi();
+    });
+
+    function updateOfflineToast() {
+      const toast = document.getElementById('offlineToast');
+      toast.classList.toggle('show', !navigator.onLine);
+    }
+
+    document.getElementById('hubSearch').addEventListener('input', function(e) {
+      filterSearchables(e.target.value);
+    });
+
+    document.getElementById('installBtn').addEventListener('click', triggerInstall);
+    document.getElementById('installBannerBtn').addEventListener('click', triggerInstall);
+
+    window.addEventListener('online', updateOfflineToast);
+    window.addEventListener('offline', updateOfflineToast);
+    updateOfflineToast();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>
