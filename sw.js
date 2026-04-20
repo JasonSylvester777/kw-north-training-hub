@@ -1,10 +1,10 @@
-const CACHE_NAME = 'kw-north-training-hub-v1';
+const CACHE_NAME = 'kw-north-main-hub-v1';
 const URLS_TO_CACHE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './icon-192.png',
-  './icon-512.png'
+  './mainhub-icon-192.png',
+  './mainhub-icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
