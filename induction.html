@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KW North Induction & Orientation</title>
+  <meta name="theme-color" content="#111827" />
+  <style>
+    :root{--red:#d32f2f;--red-dark:#b71c1c;--black:#111827;--muted:#6b7280;--line:#e5e7eb;--bg:#f8fafc;--white:#fff;--green:#166534;--green-bg:#dcfce7;--amber:#92400e;--amber-bg:#fef3c7;--locked:#9ca3af}
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#fff,var(--bg));color:var(--black)}
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(17,24,39,.96);color:white;border-bottom:1px solid rgba(255,255,255,.08)}
+    .topbar-inner{max-width:1180px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.brand-badge{width:44px;height:44px;border-radius:14px;background:var(--red);display:grid;place-items:center;font-weight:800}.brand strong{display:block}.brand span{display:block;font-size:12px;color:#cbd5e1;margin-top:2px}.profile{font-size:13px;color:#e5e7eb}.profile button{margin-left:10px;background:transparent;color:white;border:1px solid #475569;border-radius:10px;padding:8px 10px;cursor:pointer}
+    main{max-width:1180px;margin:auto;padding:34px 22px 80px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch}.hero-card,.summary-card{background:white;border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 14px 32px rgba(15,23,42,.07)}
+    .eyebrow{font-size:12px;font-weight:800;color:var(--red);letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:42px;line-height:1.05;margin:10px 0 12px}.hero p{color:var(--muted);font-size:16px;margin:0}.rule{margin-top:20px;padding:14px 16px;border-radius:16px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;font-weight:700}.summary-card h2{margin:0 0 18px;font-size:22px}.progress-bar{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden}.progress-fill{height:100%;background:var(--red);width:0;transition:.3s}.summary-row{display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-size:14px}.summary-row strong{font-size:18px}.complete-badge{display:none;margin-top:14px;background:var(--green-bg);color:var(--green);font-weight:800;border-radius:12px;padding:12px;text-align:center}
+    .section-head{margin:38px 0 16px}.section-head h2{margin:0;font-size:28px}.section-head p{margin:6px 0 0;color:var(--muted)}.session-list{display:grid;gap:14px}.session{background:white;border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;box-shadow:0 8px 20px rgba(15,23,42,.04)}.session.locked{background:#f8fafc;color:#64748b}.num{width:48px;height:48px;border-radius:15px;background:#fef2f2;color:var(--red);display:grid;place-items:center;font-weight:900}.locked .num{background:#e5e7eb;color:#64748b}.session h3{margin:0 0 4px;font-size:18px}.session p{margin:0;color:var(--muted);font-size:13px}.status{display:inline-block;margin-top:8px;font-size:12px;font-weight:800;border-radius:999px;padding:5px 9px;background:#f3f4f6;color:#4b5563}.status.pass{background:var(--green-bg);color:var(--green)}.status.open{background:var(--amber-bg);color:var(--amber)}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.btn.primary{background:var(--red);color:white}.btn.primary:hover{background:var(--red-dark)}.btn.secondary{background:white;color:#374151;border:1px solid #d1d5db}.btn:disabled{cursor:not-allowed;background:#e5e7eb;color:#9ca3af;border-color:#e5e7eb}
+    .overlay{position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:50;display:none;align-items:center;justify-content:center;padding:18px}.overlay.show{display:flex}.modal{background:white;border-radius:24px;width:min(900px,100%);max-height:94vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}.modal-head{position:sticky;top:0;background:white;border-bottom:1px solid var(--line);padding:18px 20px;display:flex;justify-content:space-between;gap:12px;align-items:center;z-index:2}.modal-head h2{margin:0;font-size:21px}.close{background:#f3f4f6;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;font-weight:700}.modal-body{padding:20px}.video-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:16px;background:#111}.video-note{margin:14px 0 0;color:var(--muted);font-size:13px}.question{border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}.question strong{display:block;margin-bottom:10px}.option{display:flex;gap:9px;align-items:flex-start;padding:8px;border-radius:10px}.option:hover{background:#f8fafc}.quiz-footer{position:sticky;bottom:0;background:white;border-top:1px solid var(--line);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}.result{padding:18px;border-radius:16px;margin-bottom:18px;font-weight:700}.result.pass{background:var(--green-bg);color:var(--green)}.result.fail{background:#fee2e2;color:#991b1b}
+    .identify-card{width:min(520px,100%);background:white;border-radius:26px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.3)}.identify-card h2{margin:0 0 8px;font-size:28px}.identify-card p{color:var(--muted);margin:0 0 20px}.field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}.field input{width:100%;height:48px;border:1px solid #d1d5db;border-radius:12px;padding:0 13px;font-size:16px}.field input:focus{outline:3px solid rgba(211,47,47,.12);border-color:var(--red)}.error{display:none;color:#991b1b;background:#fee2e2;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:13px}.loading{text-align:center;color:var(--muted);padding:30px}.tiny{font-size:12px;color:var(--muted);margin-top:12px}
+    @media(max-width:780px){.hero{grid-template-columns:1fr}.hero h1{font-size:34px}.session{grid-template-columns:auto 1fr}.actions{grid-column:1/-1;justify-content:stretch}.actions .btn{flex:1}.topbar-inner{align-items:flex-start}.profile{font-size:0}.profile button{font-size:12px}.brand span{display:none}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><div class="brand"><div class="brand-badge">KW</div><div><strong>KW North Induction</strong><span>New Agent Training & Orientation</span></div></div><div class="profile" id="profileArea"></div></div></div>
+  <main>
+    <section class="hero">
+      <div class="hero-card"><div class="eyebrow">Required Induction Programme</div><h1>Learn in sequence. Prove understanding. Progress.</h1><p>Complete each required session and pass its 10-question assessment before the next video becomes available.</p><div class="rule">Pass mark: 80% (8/10). If you do not pass, rewatch the session and retry the assessment.</div></div>
+      <div class="summary-card"><h2>Your Progress</h2><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="summary-row"><span>Sessions passed</span><strong id="passedCount">0 / 15</strong></div><div class="summary-row"><span>Current session</span><strong id="currentSession">Session 1</strong></div><div class="complete-badge" id="completeBadge">INDUCTION COMPLETE ✓</div></div>
+    </section>
+    <div class="section-head"><h2>Induction Sessions</h2><p>Locked sessions become available automatically after you pass the previous required assessment.</p></div>
+    <div class="session-list" id="sessionList"><div class="loading">Loading your training progress…</div></div>
+  </main>
+
+  <div class="overlay" id="identifyOverlay"><form class="identify-card" id="identifyForm"><div class="eyebrow">KW North Training Hub</div><h2>Identify yourself</h2><p>Enter your name and surname so your training activity and Induction progress can be recorded.</p><div class="error" id="identifyError"></div><div class="field"><label for="firstName">Name</label><input id="firstName" autocomplete="given-name" required /></div><div class="field"><label for="lastName">Surname</label><input id="lastName" autocomplete="family-name" required /></div><button class="btn primary" type="submit" style="width:100%;height:48px">Continue to Training</button><div class="tiny">Use the same name and surname each time you access the Training Hub.</div></form></div>
+
+  <div class="overlay" id="videoOverlay"><div class="modal"><div class="modal-head"><h2 id="videoTitle">Training Video</h2><button class="close" onclick="closeVideo()">Close</button></div><div class="modal-body"><iframe id="videoFrame" class="video-frame" allow="autoplay; fullscreen" allowfullscreen></iframe><p class="video-note">Watch the training carefully. When you are ready, close this window and complete the assessment for this session.</p></div></div></div>
+
+  <div class="overlay" id="quizOverlay"><div class="modal"><div class="modal-head"><h2 id="quizTitle">Assessment</h2><button class="close" onclick="closeQuiz()">Close</button></div><div class="modal-body" id="quizBody"></div><div class="quiz-footer"><span id="quizRequirement">Pass mark: 80%</span><button class="btn primary" id="submitQuizBtn" onclick="submitQuiz()">Submit Assessment</button></div></div></div>
+
+  <script>
+    const API_URL = 'https://fdbsqjtwbucjhjgphhyh.supabase.co/functions/v1/training-api';
+    const PUBLISHABLE_KEY = 'sb_publishable_GmMPNJ5JAKMh8j9Mk1nmpg_3fs17xqG';
+    const TOKEN_KEY = 'kwNorthTrainingToken';
+    const NAME_KEY = 'kwNorthTrainingName';
+    let token = localStorage.getItem(TOKEN_KEY) || '';
+    let profileName = localStorage.getItem(NAME_KEY) || '';
+    let sessions = [];
+    let activeQuiz = null;
+
+    async function api(payload){
+      const res = await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLISHABLE_KEY},body:JSON.stringify(payload)});
+      const data = await res.json().catch(()=>({error:'Invalid server response.'}));
+      if(!res.ok) throw Object.assign(new Error(data.error || 'Request failed.'),{status:res.status,data});
+      return data;
+    }
+
+    function showIdentify(message=''){
+      document.getElementById('identifyOverlay').classList.add('show');
+      const e=document.getElementById('identifyError');
+      if(message){e.textContent=message;e.style.display='block'}else{e.style.display='none'}
+    }
+    function hideIdentify(){document.getElementById('identifyOverlay').classList.remove('show')}
+    function signOut(){localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(NAME_KEY);token='';profileName='';showIdentify()}
+    function renderProfile(){document.getElementById('profileArea').innerHTML=profileName?`${escapeHtml(profileName)} <button onclick="signOut()">Change Agent</button>`:''}
+    function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
+    document.getElementById('identifyForm').addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      const first=document.getElementById('firstName').value.trim();
+      const last=document.getElementById('lastName').value.trim();
+      const error=document.getElementById('identifyError'); error.style.display='none';
+      try{
+        const data=await api({action:'identify',first_name:first,last_name:last});
+        token=data.token; profileName=`${data.agent.first_name} ${data.agent.last_name}`;
+        localStorage.setItem(TOKEN_KEY,token);localStorage.setItem(NAME_KEY,profileName);hideIdentify();renderProfile();await loadProgress();
+      }catch(err){error.textContent=err.message;error.style.display='block'}
+    });
+
+    async function loadProgress(){
+      if(!token){showIdentify();return}
+      try{
+        const data=await api({action:'progress',token});sessions=data.sessions||[];renderSessions(data.induction_complete);
+      }catch(err){if(err.status===401){signOut();return}document.getElementById('sessionList').innerHTML=`<div class="result fail">${escapeHtml(err.message)}</div>`}
+    }
+
+    function renderSessions(complete){
+      const passed=sessions.filter(s=>s.passed).length;
+      document.getElementById('passedCount').textContent=`${passed} / ${sessions.length}`;
+      document.getElementById('progressFill').style.width=`${sessions.length?Math.round(passed/sessions.length*100):0}%`;
+      const current=sessions.find(s=>s.unlocked&&!s.passed)||sessions[sessions.length-1];
+      document.getElementById('currentSession').textContent=complete?'Complete':current?`Session ${current.session_key}`:'Session 1';
+      document.getElementById('completeBadge').style.display=complete?'block':'none';
+      document.getElementById('sessionList').innerHTML=sessions.map(s=>{
+        const locked=!s.unlocked;
+        const status=s.passed?`<span class="status pass">Passed ${s.best_score}% ✓</span>`:locked?`<span class="status">🔒 Locked</span>`:s.attempt_count?`<span class="status open">Latest ${s.latest_score}% · ${s.attempt_count} attempt${s.attempt_count===1?'':'s'}</span>`:`<span class="status open">Available</span>`;
+        return `<article class="session ${locked?'locked':''}"><div class="num">${escapeHtml(s.session_key)}</div><div><h3>Session ${escapeHtml(s.session_key)} – ${escapeHtml(s.title)}</h3><p>${escapeHtml(s.subtitle)}</p>${status}</div><div class="actions"><button class="btn primary" ${locked?'disabled':''} onclick="watchSession('${s.session_key}')">${s.passed?'Rewatch':'Watch Video'}</button><button class="btn secondary" ${locked?'disabled':''} onclick="openQuiz('${s.session_key}')">${s.passed?'Review Assessment':'Assessment'}</button></div></article>`
+      }).join('');
+    }
+
+    async function watchSession(sessionKey){
+      try{
+        const data=await api({action:'open_session',token,session_key:sessionKey});
+        document.getElementById('videoTitle').textContent=`Session ${data.session.session_key} – ${data.session.title}`;
+        document.getElementById('videoFrame').src=data.session.video_url;
+        document.getElementById('videoOverlay').classList.add('show');
+        await loadProgress();
+      }catch(err){alert(err.message)}
+    }
+    function closeVideo(){document.getElementById('videoOverlay').classList.remove('show');document.getElementById('videoFrame').src=''}
+
+    async function openQuiz(sessionKey){
+      try{
+        const data=await api({action:'quiz',token,session_key:sessionKey});activeQuiz=data;
+        document.getElementById('quizTitle').textContent=`Session ${sessionKey} Assessment`;
+        document.getElementById('quizRequirement').textContent=`Pass mark: ${data.pass_mark}%`;
+        document.getElementById('submitQuizBtn').disabled=false;
+        document.getElementById('quizBody').innerHTML=data.questions.map((q,i)=>`<div class="question"><strong>${i+1}. ${escapeHtml(q.question_text)}</strong>${(q.options||[]).map(opt=>`<label class="option"><input type="radio" name="q_${q.id}" value="${escapeHtml(opt.key)}"><span><b>${escapeHtml(opt.key)}.</b> ${escapeHtml(opt.text)}</span></label>`).join('')}</div>`).join('');
+        document.getElementById('quizOverlay').classList.add('show');
+      }catch(err){alert(err.message)}
+    }
+    function closeQuiz(){document.getElementById('quizOverlay').classList.remove('show');activeQuiz=null}
+
+    async function submitQuiz(){
+      if(!activeQuiz)return;
+      const answers={};let missing=0;
+      for(const q of activeQuiz.questions){const selected=document.querySelector(`input[name="q_${q.id}"]:checked`);if(!selected)missing++;else answers[String(q.id)]=selected.value}
+      if(missing){alert(`Please answer all 10 questions before submitting. (${missing} unanswered)`);return}
+      const btn=document.getElementById('submitQuizBtn');btn.disabled=true;
+      try{
+        const result=await api({action:'submit_quiz',token,session_key:activeQuiz.session_key,answers});
+        document.getElementById('quizBody').innerHTML=`<div class="result ${result.passed?'pass':'fail'}">${result.passed?`PASS – ${result.score}% ✓ The next required session is now unlocked.`:`NOT YET – ${result.score}%. You need at least ${result.pass_mark}%. Rewatch the training and try again.`}</div><p>You answered <strong>${result.correct_count} out of ${result.total_questions}</strong> correctly.</p>`;
+        btn.style.display='none';await loadProgress();
+      }catch(err){btn.disabled=false;alert(err.message)}
+    }
+
+    window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeVideo();closeQuiz()}});
+    renderProfile();
+    if(token)loadProgress();else showIdentify();
+  </script>
+</body>
+</html>
