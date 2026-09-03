@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kw-north-training-hub-v6';
+const CACHE_NAME = 'kw-north-training-hub-v7';
 const URLS_TO_CACHE = [
   './',
   './index.html',
