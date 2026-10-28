@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111827" />
+  <title>Opening KW North Training</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#111827}.card{width:min(440px,calc(100% - 32px));background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:28px;text-align:center;box-shadow:0 18px 50px rgba(15,23,42,.10)}.kw{width:54px;height:54px;margin:0 auto 16px;border-radius:16px;background:#d32f2f;color:#fff;display:grid;place-items:center;font-size:22px;font-weight:900}.spinner{width:28px;height:28px;margin:20px auto;border:3px solid #e5e7eb;border-top-color:#d32f2f;border-radius:50%;animation:spin .8s linear infinite}.error{display:none;margin-top:16px;background:#fee2e2;color:#991b1b;border-radius:12px;padding:12px;font-size:13px}@keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="kw">KW</div>
+    <h2>Opening your training</h2>
+    <p id="message">Connecting your Agent Hub profile to KW North Training…</p>
+    <div class="spinner" id="spinner"></div>
+    <div class="error" id="error"></div>
+  </div>
+  <script>
+    const API_URL='https://fdbsqjtwbucjhjgphhyh.supabase.co/functions/v1/training-api';
+    const PUBLISHABLE_KEY='sb_publishable_GmMPNJ5JAKMh8j9Mk1nmpg_3fs17xqG';
+    const TOKEN_KEY='kwNorthTrainingToken';
+    const NAME_KEY='kwNorthTrainingName';
+    const params=new URLSearchParams(location.search);
+    const first=(params.get('first')||'').trim();
+    const last=(params.get('last')||'').trim();
+    const category=(params.get('category')||'hub').trim().toLowerCase();
+
+    async function identify(){
+      if(!first||!last)throw new Error('Agent name was not supplied by the Agent Hub.');
+      const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLISHABLE_KEY},body:JSON.stringify({action:'identify',first_name:first,last_name:last})});
+      const data=await res.json().catch(()=>({error:'Invalid server response.'}));
+      if(!res.ok)throw new Error(data.error||'Could not identify agent.');
+      localStorage.setItem(TOKEN_KEY,data.token);
+      localStorage.setItem(NAME_KEY,`${data.agent.first_name} ${data.agent.last_name}`);
+      return data;
+    }
+
+    function target(){
+      if(category==='induction')return 'induction.html';
+      if(['command','mapp','loom','other','resources'].includes(category))return `training-section.html?category=${encodeURIComponent(category)}`;
+      return 'hub.html';
+    }
+
+    (async()=>{
+      try{
+        const data=await identify();
+        document.getElementById('message').textContent=`Opening training for ${data.agent.first_name} ${data.agent.last_name}…`;
+        location.replace(target());
+      }catch(err){
+        document.getElementById('spinner').style.display='none';
+        const el=document.getElementById('error');el.textContent=err.message;el.style.display='block';
+      }
+    })();
+  </script>
+</body>
+</html>
